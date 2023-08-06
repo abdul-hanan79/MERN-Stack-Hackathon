@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 import App from "next/app"
 
 export const useSignup = () => {
-    const signupUserDetails = useSelector((state) => state.authSlice.signupUser.data)
+    const signupUserDetails = useSelector((state:any) => state.authSlice.signupUser.data)
 
     console.log("signup user", signupUserDetails)
     const router = useRouter();
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
 
-    const doSignup = async (values: signupUserType) => {
+    const doSignup = async (values: any) => {
         console.log("values in signup", values)
         const newUser: signupUserType = {
             name: values.name,
