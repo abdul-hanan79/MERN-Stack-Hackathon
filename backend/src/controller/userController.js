@@ -2,20 +2,18 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
 require('dotenv').config();
 
 
 
 // signup
 const doSignup = async (req, res) => {
-
     try {
         await prisma.$connect();
         console.log("singupUser", req.body)
         const salt = await bcrypt.genSalt(10)
         const passwordHash = await bcrypt.hash(req.body.user.password, salt)
-        const newUser = await prisma.user.create({
+        const newUser = await prisma.User.create({
             data: {
                 email: req.body.user.email,
                 password: passwordHash,
@@ -30,22 +28,19 @@ const doSignup = async (req, res) => {
                 name: newUser.name,
                 message: "success"
             }
-
         })
     } catch (error) {
         console.log(error)
         res.json({ error: error })
 
     }
-    // finally {
-    //     await prisma.$disconnect();
-    // }
-
+    finally {
+        await prisma.$disconnect();
+    }
 
 }
 
 const doLogin = async (req, res) => {
-
     const { email, password } = req.body;
     console.log("login data", req.body)
     // Find user by email
@@ -67,12 +62,15 @@ const doLogin = async (req, res) => {
         return res.status(401).json({ error: 'Invalid password' });
     }
 
-
     // Generate token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: '5 days',
+    });
+    // res.cookies("name","value",[optional])
+    res.cookie('jwt',token,)
     // console.log(token)
     // Set the token in cookies
-    res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
+    // res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
     return res.status(200).json(
         {
             message: 'Login successful',
