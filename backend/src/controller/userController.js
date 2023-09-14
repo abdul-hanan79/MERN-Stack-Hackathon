@@ -67,6 +67,7 @@ const doLogin = async (req, res) => {
         expiresIn: '5 days',
     });
     // res.cookies("name","value",[optional])
+    // this send cookies to client
     res.cookie('jwt',token,)
     // console.log(token)
     // Set the token in cookies
