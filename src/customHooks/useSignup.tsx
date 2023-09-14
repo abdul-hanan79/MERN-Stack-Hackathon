@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import App from "next/app"
 
 export const useSignup = () => {
-    const signupUserDetails = useSelector((state:any) => state.authSlice.signupUser.data)
+    const signupUserDetails = useSelector((state:any) => state.authSlice.signupUser)
 
-    console.log("signup user", signupUserDetails)
+    console.log("signuped user ", signupUserDetails)
     const router = useRouter();
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
 
@@ -23,11 +23,12 @@ export const useSignup = () => {
         }
         console.log("new user is", newUser);
         await dispatch(signupUser(newUser))
-        if (signupUserDetails.data.message == "success") {
+        if (signupUserDetails.message == "success") {
             router.push('/login')
         }
         else {
-            alert("user not signped")
+            console.log("signupUserDetails",signupUserDetails.message);
+            alert("user not signuped")
         }
     }
     const goToSignup = () => {

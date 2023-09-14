@@ -13,7 +13,9 @@ export const signupUser = createAsyncThunk('authUser/signupUser', async (user: s
 
         const signupUser = await axios.post("http://localhost:8080/user/signupUser", { user })
         console.log("the user i singup", signupUser);
-        return signupUser
+        const signupedUser = signupUser.data;
+        console.log("signupedUser Data is", signupedUser);
+        return signupedUser
     }
     catch (e) {
         console.log("error in singup user", e);
@@ -26,9 +28,8 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentia
     try {
         // const user = await signInWithEmailAndPassword(auth, email, password)
         const user = await axios.post("http://localhost:8080/user/loginUser", { email: userCredentials.email, password: userCredentials.password })
-
-        console.log("user dasta is", user);
-        const userData = user
+        console.log("logined user data is", user);
+        const userData = user.data
         console.log("UserData", userData);
         return userData
     }
@@ -70,7 +71,6 @@ const authSlice = createSlice({
                 signupUser: action.payload,
             };
             console.log("newState after signup", newState);
-
             return newState;
         });
         builder.addCase(loginUser.fulfilled, (state, action) => {
@@ -78,7 +78,7 @@ const authSlice = createSlice({
             if (action.payload) {
                 let newState: any = {
                     ...state,
-                    user: action.payload.data,
+                    user: action.payload,
                     isLoggedIn: true,
                     currentUserRequestLoader: false /*this is extra*/
                 };

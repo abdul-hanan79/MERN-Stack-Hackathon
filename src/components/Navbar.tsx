@@ -8,6 +8,16 @@ import { useSelector } from 'react-redux';
 
 
 const Navbar = () => {
+    const userLogined = useSelector((state: any) => state.authSlice.isLoggedIn)
+    console.log("userLogined navbar", userLogined);
+    // useEffect(() => {
+    //     if (!auth.isLoggedIn && auth.currentUserRequestLoader) {
+    //         router.push("/login");
+    //     }
+    // }, [auth])
+
+
+    // const loginUser = useSelector((state: any) =>)
     // const { goToLogin } = useLogin()
     // const { goToSignup } = useSignup()
     return (
@@ -22,23 +32,30 @@ const Navbar = () => {
                     <p className="text-white hover:text-blue-200">Dashboard</p>
                 </Link>
                 {/* {!userLoggedIn: */}
-                <div> <Link href="/login">
-                    <button
-                        className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
+                {!userLogined ?
+                    <div>
+                        <Link href="/login">
+                            <button
+                                className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
+                            >
+                                Login
+                            </button>
+                        </Link>
+                        <Link href="/signup">
+                            <button
+                                className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
+                            >
+                                Signup
+                            </button>
+                        </Link>
+                    </div> : <div>
 
-                    >
-                        Login
-                    </button>
-                </Link>
-                    <Link href="/signup">
                         <button
                             className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
-
                         >
-                            Signup
+                            Signout
                         </button>
-                    </Link>
-                </div>
+                    </div>}
                 {/* } */}
             </div>
             <div className="md:hidden flex space-x-2">

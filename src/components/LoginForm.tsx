@@ -12,7 +12,6 @@ const LoginForm = () => {
         email: "",
         password: "",
     };
-
     const { values, handleBlur, handleChange, isValid, handleSubmit, errors, touched } =
         useFormik({
             initialValues,

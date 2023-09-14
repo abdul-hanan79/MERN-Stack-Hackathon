@@ -4,4 +4,3 @@ const getJwtToken = (id) => {
 }
 // const token = await jwt.sign({ email: userData.email, fullName: userData.fullName }, process.env.secretkey)
 module.exports = getJwtToken;
-

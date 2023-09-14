@@ -23,15 +23,16 @@ const doSignup = async (req, res) => {
         // console.log("signup is running", req.body)
         console.log("signup user ", newUser)
         res.json({
-            data: {
-                email: newUser.email,
-                name: newUser.name,
-                message: "success"
-            }
+            email: newUser.email,
+            name: newUser.name,
+            message: "success"
         })
     } catch (error) {
         console.log(error)
-        res.json({ error: error })
+        res.json({
+            error: error,
+            message: 'unsuccessful'
+        })
 
     }
     finally {
@@ -41,49 +42,54 @@ const doSignup = async (req, res) => {
 }
 
 const doLogin = async (req, res) => {
-    const { email, password } = req.body;
-    console.log("login data", req.body)
-    // Find user by email
-    const user = await prisma.user.findUnique({
-        where: {
-            email: email,
-        },
-    });
-    console.log("user in login ", user)
-
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
-
-    // Compare password
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordMatch) {
-        return res.status(401).json({ error: 'Invalid password' });
-    }
-
-    // Generate token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-        expiresIn: '5 days',
-    });
-    // res.cookies("name","value",[optional])
-    // this send cookies to client
-    res.cookie('jwt',token,)
-    // console.log(token)
-    // Set the token in cookies
-    // res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
-    return res.status(200).json(
-        {
-            message: 'Login successful',
-            token: token,
-            name: user.name,
-            email: user.email
+    try {
+        const { email, password } = req.body;
+        console.log("login data", req.body)
+        // Find user by email
+        const user = await prisma.user.findUnique({
+            where: {
+                email: email,
+            },
+        });
+        console.log("user in login ", user)
+        if (!user) {
+            return res.status(404).json({ error: 'User not found', message: 'user not found' });
         }
+        // Compare password
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatch) {
+            return res.status(401).json({ error: 'Invalid password', message: 'invalid password' });
+        }
+        // Generate token
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+            expiresIn: '5 days',
+        });
+        // res.cookies("name","value",[optional])
+        // this send cookies to client
+        res.cookie('jwt', token,)
+        // console.log(token)
+        // Set the token in cookies
+        // res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
+        return res.status(200).json(
+            {
+                message: 'Login successful',
+                token: token,
+                name: user.name,
+                email: user.email
+            }
+        );
 
-    );
+    }
+    catch (error) {
+        return res.json({
+            error: error,
+            message: 'login failed'
+        })
+    }
+    // finally {
+
+    // }
 }
-
-
 module.exports = { doSignup, doLogin }
 
 // const usersCollection = require('../models/userModel')

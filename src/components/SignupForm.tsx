@@ -1,6 +1,4 @@
 import React from "react";
-// import styled from "styled-components";
-// import { GlobalStyle } from "./Styles/globalStyles";
 import { useFormik } from "formik";
 import { signupSchema } from "../schemas/signupSchema";
 import { useSignup } from "@/customHooks/useSignup";
@@ -14,7 +12,6 @@ const SignupForm = () => {
         password: "",
         confirmPassword: "",
     };
-
     const { values, handleBlur, handleChange, isValid, handleSubmit, errors, touched } =
         useFormik({
             initialValues,
@@ -32,10 +29,7 @@ const SignupForm = () => {
 
     return (
         <>
-
-
             <div className="container mx-auto">
-
                 <div className="flex justify-center">
                     <div className="w-1/3 mx-2 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -68,7 +62,6 @@ const SignupForm = () => {
                                     name="email"
                                     id="email"
                                     className="rounded-lg shadow-md p-1"
-
                                     placeholder="Email"
                                     value={values.email}
                                     onChange={handleChange}
@@ -91,7 +84,6 @@ const SignupForm = () => {
                                     value={values.password}
                                     onChange={handleChange}
                                     className="rounded-lg shadow-md p-1"
-
                                     onBlur={handleBlur}
                                 />
                                 {errors.password && touched.password ? (
@@ -108,7 +100,6 @@ const SignupForm = () => {
                                     name="confirmPassword"
                                     id="confirmPassword"
                                     className="rounded-lg shadow-md p-1"
-
                                     placeholder="Confirm Password"
                                     value={values.confirmPassword}
                                     onChange={handleChange}
