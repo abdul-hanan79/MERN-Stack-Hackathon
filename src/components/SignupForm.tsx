@@ -24,9 +24,7 @@ const SignupForm = () => {
                 action.resetForm();
             },
         });
-
-    console.log("error", errors);
-
+    // console.log("error", errors);
     return (
         <>
             <div className="container mx-auto">

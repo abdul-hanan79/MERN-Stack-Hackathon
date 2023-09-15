@@ -9,6 +9,7 @@ const userRoutes = require('./src/routes/userRoutes')
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv');
 const cors = require("cors");
+const { default: verifyUser } = require('./src/utils/verifyUser');
 
 dotenv.config();
 

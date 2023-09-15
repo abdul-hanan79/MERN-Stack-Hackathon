@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 export const useLogin = () => {
     const router = useRouter();
     const userLogined = useSelector((state: any) => state.authSlice.isLoggedIn)
+    console.log("userlogied useLogin", userLogined);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
     const doLogin = async (values: loginUserType) => {
         try {
@@ -25,6 +26,9 @@ export const useLogin = () => {
             console.log("user is logined", userLogined);
             if (userLogined) {
                 router.push("/dashboard")
+            }
+            else{
+                alert("error in login ")
             }
 
         }

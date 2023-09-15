@@ -1,42 +1,42 @@
 
 'use client'
+import useProducts from "@/customHooks/useProducts";
 import { ProductSchema } from "@/schemas/productSchema";
 import { useFormik, ErrorMessage, Field } from "formik";
 
 
-
 const ProductForm = () => {
+    // const onSubmit = () => console.log("hello");
+    const { uploadProductDetails } = useProducts();
     const initialValues = {
         name: '',
-        category: '',
         description: '',
         price: '',
         color: '',
         size: '',
         images: [],
         stock: '',
+        category: '',
         ratings: [{ userId: '', rating: '', review: '' }],
     };
-
-    const { values, handleBlur, handleSubmit, handleChange, isValid, errors, touched } = useFormik({
-        initialValues,
-        validationSchema: ProductSchema,
-        validateOnChange: true,
-        validateOnBlur: false,
-        onSubmit: (values, action) => {
-            console.log("values", values);
-            action.resetForm()
-        }
-    })
+    const { values, handleBlur, handleSubmit, handleChange, isValid, errors, touched } =
+        useFormik({
+            initialValues,
+            validationSchema: ProductSchema,
+            validateOnChange: true,
+            validateOnBlur: false,
+            onSubmit: (values, action) => {
+                console.log("values in add producte details", values);
+                uploadProductDetails(values)
+                action.resetForm()
+            }
+        })
     return (
         <>
             <div className="container mx-auto">
-
                 <div className="flex ">
-                    
-                    <div className=" mx-auto p-5 ">
+                    <div className="mx-auto p-5 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
                             <div className="input-block">
                                 <label htmlFor="name" className="block text-md font-medium text-slate-700F">
                                     Product Name
@@ -77,7 +77,7 @@ const ProductForm = () => {
                                     <p className="form-error text-rose-700">{errors.description}</p>
                                 ) : null}
                             </div>
-                        
+
                             <div className="input-block">
                                 <label htmlFor="price" className="block text-md font-medium text-slate-700F">
                                     Price
@@ -119,46 +119,46 @@ const ProductForm = () => {
                                 ) : null}
                             </div>
                             <div className="input-block">
-                                <label htmlFor="description" className="block text-md font-medium text-slate-700F">
-                                    Description
+                                <label htmlFor="size" className="block text-md font-medium text-slate-700F">
+                                    Size
                                 </label>
                                 <input
                                     type="text"
                                     autoComplete="off"
-                                    name="description"
-                                    id="description"
+                                    name="size"
+                                    id="size"
                                     className="rounded-lg shadow-md p-1"
 
                                     placeholder="description"
-                                    value={values.description}
+                                    value={values.size}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.description && touched.description ? (
-                                    <p className="form-error text-rose-700">{errors.description}</p>
+                                {errors.size && touched.size ? (
+                                    <p className="form-error text-rose-700">{errors.size}</p>
                                 ) : null}
                             </div>
                             <div className="input-block">
-                                <label htmlFor="description" className="block text-md font-medium text-slate-700F">
-                                    Description
+                                <label htmlFor="stock" className="block text-md font-medium text-slate-700F">
+                                    stock
                                 </label>
                                 <input
                                     type="text"
                                     autoComplete="off"
-                                    name="description"
-                                    id="description"
+                                    name="stock"
+                                    id="stock"
                                     className="rounded-lg shadow-md p-1"
 
-                                    placeholder="description"
-                                    value={values.description}
+                                    placeholder="stock"
+                                    value={values.stock}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.description && touched.description ? (
-                                    <p className="form-error text-rose-700">{errors.description}</p>
+                                {errors.stock && touched.stock ? (
+                                    <p className="form-error text-rose-700">{errors.stock}</p>
                                 ) : null}
                             </div>
-                            <div className="input-block">
+                            {/* <div className="input-block">
                                 <label htmlFor="size" className="block text-md font-medium text-slate-700F">
                                     Size
                                 </label>
@@ -177,43 +177,19 @@ const ProductForm = () => {
                                 {errors.size && touched.size ? (
                                     <p className="form-error text-rose-700">{errors.description}</p>
                                 ) : null}
-                            </div>
-                            {/* <div className="input-block">
-                                <label htmlFor="category" className="block text-gray-700 font-semibold mb-2">
-                                    Product Category
-                                </label>
-                                <Field
-                                    as="select"
-                                    id="category"
-                                    name="category"
-                                    className="border rounded w-full py-2 px-3 text-gray-700"
-                                >
-                                    <option value="">Select Category</option>
-                                    {values.category.map((category: any) => (
-                                        <option key={category} value={category}>
-                                            {category}
-                                        </option>
-                                    ))}
-                                </Field>
-                                <ErrorMessage name="category" component="div" className="text-red-500" />
-
-
                             </div> */}
-
-
                             <div className="modal-buttons">
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md"
                                     type="submit"
-                                    disabled={!isValid}
+                                // disabled={!isValid}
                                 >
-                                    Login
+                                    Upload
                                 </button>
                             </div>
+
                         </form>
-                        <p className="sign-up text-sm text-slate-500">
-                            Do not have accout? <a href="#" className="text-blue-600 underline-offset-auto">Sign Up Now</a>
-                        </p>
+
                     </div>
                 </div >
 

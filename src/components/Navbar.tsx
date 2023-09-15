@@ -1,4 +1,5 @@
 'use client'
+import useDashboard from '@/customHooks/useDashboard';
 import { useLogin } from '@/customHooks/useLogin';
 import { useSignup } from '@/customHooks/useSignup';
 import Link from 'next/link';
@@ -10,6 +11,7 @@ import { useSelector } from 'react-redux';
 const Navbar = () => {
     const userLogined = useSelector((state: any) => state.authSlice.isLoggedIn)
     console.log("userLogined navbar", userLogined);
+    const { checkUserLogin } = useDashboard();
     // useEffect(() => {
     //     if (!auth.isLoggedIn && auth.currentUserRequestLoader) {
     //         router.push("/login");
@@ -28,9 +30,9 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="hidden md:flex space-x-4">
-                <Link href="/dashboard">
-                    <p className="text-white hover:text-blue-200">Dashboard</p>
-                </Link>
+
+                <button className="text-white hover:text-blue-200" onClick={checkUserLogin}>Dashboard</button>
+
                 {/* {!userLoggedIn: */}
                 {!userLogined ?
                     <div>
