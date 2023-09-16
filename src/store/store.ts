@@ -3,6 +3,7 @@ import authSlice from "./authSlice";
 export const store = configureStore({
     reducer: {
         authSlice,
+    
     },
     devTools: process.env.NODE_ENV !== "production",
 });

@@ -1,20 +1,34 @@
-var post = []
+// var post = []
 
-const doGetPost = (req, res) => {
+
+const doGetProduct = (req, res) => {
     console.log('get post is running')
     res.json({ data: post })
 }
-const doCreatePost = (req, res) => {
-    console.log(req.body);
-    post.push(req.body);
-    res.json({ data: post });
+const doCreateProduct = (req, res) => {
+    try {
+        console.log("req", req);
+        console.log("req.body ", req.body);
+        console.log("req.cookies", req.cookies.jwt);
+        // post.push(req.body);
+        res.json({ data: "hello" });
+    }
+    catch {
+        return res.json({
+            error: error,
+            message: 'Product Submission Failed'
+        })
+    }
+    finally {
+
+    }
 }
-const doDeletePost = (req, res) => {
+const doDeleteProduct = (req, res) => {
     const updatePost = post.filter(post => post.id != req.query.id)
     post = updatePost
     res.json({ updatdPost: post })
 }
-const doUpdatePost = (req, res) => {
+const doUpdateProduct = (req, res) => {
     const updatedPost = post.map((post) => {
         if (post.id == req.body.id) {
             const update = {
@@ -34,4 +48,4 @@ const doUpdatePost = (req, res) => {
     res.json({ data: post })
 }
 
-module.exports = { doGetPost, doCreatePost, doDeletePost, doUpdatePost }
+module.exports = { doGetProduct, doCreateProduct, doDeleteProduct, doUpdateProduct }

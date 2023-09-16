@@ -10,7 +10,6 @@ import { loginUserType, signupUserType } from "@/types/types";
 export const signupUser = createAsyncThunk('authUser/signupUser', async (user: signupUserType) => {
     try {
         console.log('signupUser /authi slice', user)
-
         const signupUser = await axios.post("http://localhost:8080/user/signupUser", { user })
         console.log("the user i singup", signupUser);
         const signupedUser = signupUser.data;

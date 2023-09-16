@@ -3,7 +3,7 @@ const app = express();
 // const path = require('path');
 const port = 8080;
 var bodyParser = require('body-parser')
-const postRoutes = require('./src/routes/postRoutes')
+const productRoutes = require('./src/routes/productRoutes')
 const userRoutes = require('./src/routes/userRoutes')
 
 const cookieParser = require('cookie-parser')
@@ -27,7 +27,7 @@ app.use(cookieParser())
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/posts', postRoutes)
+app.use('/products', productRoutes)
 
 app.use('/user', userRoutes)
 

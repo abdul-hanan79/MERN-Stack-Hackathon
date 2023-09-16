@@ -5,6 +5,9 @@ import { loginSchema } from "../schemas/loginSchema";
 import { useSignup } from "@/customHooks/useSignup";
 
 import { useLogin } from "@/customHooks/useLogin";
+import Link from "next/link";
+import InputBlock from "./InputBlock";
+import Button from "./ui/Button";
 
 const LoginForm = () => {
     const { doLogin } = useLogin()
@@ -30,7 +33,6 @@ const LoginForm = () => {
     return (
         <>
             <div className="container mx-auto">
-
                 <div className="flex justify-center">
                     <div className="w-1/3 mx-2">
                         <img
@@ -40,61 +42,20 @@ const LoginForm = () => {
                     </div>
                     <div className="w-1/2 mx-2 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                            <InputBlock label="Email" type="email" name="email" id="email" placeholder="Enter your Email"
+                                value={values.email} onChange={handleChange} onBlur={handleBlur} error={errors.email}
+                                touched={touched.email}
+                            />
+                            <InputBlock label="Password" type="password" name="password" id="password" placeholder="Enter Password"
+                                value={values.password} onChange={handleChange} onBlur={handleBlur} error={errors.password}
+                                touched={touched.password}
+                            />
 
-                            <div className="input-block">
-                                <label htmlFor="email" className="block text-md font-medium text-slate-700F">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    autoComplete="off"
-                                    name="email"
-                                    id="email"
-                                    className="rounded-lg shadow-md p-1"
+                            <Button type="submit" title="Login" />
 
-                                    placeholder="Email"
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                                {errors.email && touched.email ? (
-                                    <p className="form-error text-rose-700">{errors.email}</p>
-                                ) : null}
-                            </div>
-                            <div className="input-block">
-                                <label htmlFor="password" className="block text-md font-medium text-slate-700">
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    autoComplete="off"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Password"
-                                    value={values.password}
-                                    onChange={handleChange}
-                                    className="rounded-lg shadow-md p-1"
-
-                                    onBlur={handleBlur}
-                                />
-                                {errors.password && touched.password ? (
-                                    <p className="form-error text-rose-700">{errors.password}</p>
-                                ) : null}
-                            </div>
-
-
-                            <div className="modal-buttons">
-                                <button
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md"
-                                    type="submit"
-                                    disabled={!isValid}
-                                >
-                                    Login
-                                </button>
-                            </div>
                         </form>
                         <p className="sign-up text-sm text-slate-500">
-                            Do not have accout? <a href="#" className="text-blue-600 underline-offset-auto">Sign Up Now</a>
+                            Do not have accout? <Link href="/signup" className="text-blue-600 underline-offset-auto">Sign Up Now</Link>
                         </p>
                     </div>
                 </div>

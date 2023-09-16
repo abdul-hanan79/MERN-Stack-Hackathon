@@ -8,9 +8,6 @@ import { useRouter } from "next/navigation";
 import App from "next/app"
 
 export const useSignup = () => {
-    const signupUserDetails = useSelector((state:any) => state.authSlice.signupUser)
-
-    console.log("signuped user ", signupUserDetails)
     const router = useRouter();
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
 
@@ -22,12 +19,13 @@ export const useSignup = () => {
             password: values.password,
         }
         console.log("new user is", newUser);
-        await dispatch(signupUser(newUser))
-        if (signupUserDetails.message == "success") {
+        const action = await dispatch(signupUser(newUser))
+        console.log("the signup user is", action);
+        if (action.payload.message == "success") {
             router.push('/login')
         }
         else {
-            console.log("signupUserDetails",signupUserDetails.message);
+            console.log("signupUserDetails", action.payload.message);
             alert("user not signuped")
         }
     }

@@ -40,7 +40,6 @@ const doSignup = async (req, res) => {
     }
 
 }
-
 const doLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -64,15 +63,17 @@ const doLogin = async (req, res) => {
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
             expiresIn: '5 days',
         });
-        // res.cookies("name","value",[optional])
+        console.log("token", token);
         // this send cookies to client
-        res.cookie('jwt', token,)
-        // console.log(token)
-        // Set the token in cookies
-        // res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
+        res.cookie('jwt', token, {
+            // expires: new Data(Date.now() + 50000),
+            httOnly: true
+        })
+        // console.log("res.cookies.jwt",res.cookie.jwt);
         return res.status(200).json(
             {
                 message: 'Login successful',
+                id: user.id,
                 token: token,
                 name: user.name,
                 email: user.email
