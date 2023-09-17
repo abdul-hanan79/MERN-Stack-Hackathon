@@ -63,12 +63,15 @@ const doLogin = async (req, res) => {
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
             expiresIn: '5 days',
         });
-        console.log("token", token);
+        console.log("token=>", token);
         // this send cookies to client
-        res.cookie('jwt', token, {
-            // expires: new Data(Date.now() + 50000),
-            httOnly: true
-        })
+        res.cookie("jwtoken", token, {
+            // expires: new Date(Date.now() + 50000), // Optionally set cookie expiration
+            httpOnly: true, // Make the cookie accessible only via HTTP (not JavaScript)
+            secure: false, // Allow cookies
+        });
+        console.log("verify cookies", res.getHeaders());
+        // res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Path=/; Expires=${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)}; SameSite=Strict`);
         // console.log("res.cookies.jwt",res.cookie.jwt);
         return res.status(200).json(
             {
@@ -79,7 +82,6 @@ const doLogin = async (req, res) => {
                 email: user.email
             }
         );
-
     }
     catch (error) {
         return res.json({
@@ -88,7 +90,6 @@ const doLogin = async (req, res) => {
         })
     }
     // finally {
-
     // }
 }
 module.exports = { doSignup, doLogin }
@@ -96,7 +97,7 @@ module.exports = { doSignup, doLogin }
 // const usersCollection = require('../models/userModel')
 // const bcrypt = require("bcrypt")
 // const jwt=require("jsonwebtoken")
-
+//  jwt toekn
 // const doSignUp = async (req, res) => {
 //     try {
 //         console.log('req.body in signup', req.body)

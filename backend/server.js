@@ -5,16 +5,19 @@ const port = 8080;
 var bodyParser = require('body-parser')
 const productRoutes = require('./src/routes/productRoutes')
 const userRoutes = require('./src/routes/userRoutes')
-
+const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv');
 const cors = require("cors");
-const { default: verifyUser } = require('./src/utils/verifyUser');
+// const { default: verifyUser } = require('./src/utils/verifyUser');
 
 dotenv.config();
 
 // middlewares
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // cookie parer

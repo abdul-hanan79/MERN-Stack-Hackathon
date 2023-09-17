@@ -4,6 +4,7 @@ import * as Yup from "yup";
 export const ProductSchema = Yup.object().shape({
     name: Yup.string().required('Product name is required'),
     // category: Yup.string().required('Product category is required'),
+    category: Yup.mixed().oneOf(['clothes', 'shoes', 'accessories'] as const).defined().required("Category is required"),
     description: Yup.string().required('Product description is required'),
     price: Yup.number().required('Product price is required'),
     color: Yup.string().required('Product color is required'),
