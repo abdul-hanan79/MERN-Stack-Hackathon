@@ -16,13 +16,14 @@ const useProducts = () => {
         const productDetails: prodcutType = {
             name: values.name,
             description: values.description,
+            category: values.category,
             price: values.price,
             color: values.color,
             size: values.size,
             stock: values.stock,
             userId: loginUserDetails.id
         }
-        console.log("product", productDetails);
+        console.log("product with user", productDetails);
         const action = await dispatch(submitProduct(productDetails))
         console.log("values", values);
     }

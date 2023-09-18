@@ -13,7 +13,7 @@ export type loginUserType = {
 
 export type prodcutType = {
     name: string,
-    category?: string,
+    category: string,
     description: string,
     price: number,
     color: string,

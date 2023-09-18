@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 const Navbar = () => {
     const { isUserLoggedIn } = useUserLogined();
     console.log("user logined in navbar", isUserLoggedIn);
-    const { checkUserLogin } = useDashboard();
+    // const { checkUserLogin } = useDashboard();
     // useEffect(() => {
     //     if (!auth.isLoggedIn && auth.currentUserRequestLoader) {
     //         router.push("/login");
@@ -32,7 +32,7 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex space-x-4">
 
-                <button className="text-white hover:text-blue-200" onClick={checkUserLogin}>Dashboard</button>
+                <button className="text-white hover:text-blue-200" ><Link href='/dashboard'>Dashboard</Link></button>
 
                 {/* {!userLoggedIn: */}
                 {!isUserLoggedIn ?

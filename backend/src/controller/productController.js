@@ -10,7 +10,7 @@ const doCreateProduct = (req, res) => {
 
         // console.log("req", req);
         console.log("req.body ", req.body);
-        console.log("req.cookies", req.cookies);
+        // console.log("req.cookies", req.cookies);
         // post.push(req.body);
         res.json({ data: "hello" });
     }

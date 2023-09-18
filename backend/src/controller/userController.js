@@ -65,12 +65,22 @@ const doLogin = async (req, res) => {
         });
         console.log("token=>", token);
         // this send cookies to client
-        res.cookie("jwtoken", token, {
-            // expires: new Date(Date.now() + 50000), // Optionally set cookie expiration
-            httpOnly: true, // Make the cookie accessible only via HTTP (not JavaScript)
-            secure: false, // Allow cookies
-        });
-        console.log("verify cookies", res.getHeaders());
+        // res.cookie("jwtoken", token, {
+        //     // expires: new Date(Date.now() + 50000), // Optionally set cookie expiration
+        //     httpOnly: true, // Make the cookie accessible only via HTTP (not JavaScript)
+        //     secure: false, // Allow cookies
+        // });
+        // res.cookie("token", token)
+        // res.cookie('token', "hello", {
+        //     maxAge: 3600000, // Cookie expires after 1 hour (in milliseconds)
+        //     httpOnly: true, // Cookie is accessible only via HTTP (not JavaScript)
+        //     secure: false, // Since it's local development, not over HTTPS
+        //     sameSite: 'strict', // Controls when cookies are sent (strict, lax, none)
+        //     path: '/', // Cookie is valid for all routes
+        //     domain: 'localhost', // Cookie is valid for localhost
+        // });
+
+        // console.log("verify cookies", res.getHeaders());
         // res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Path=/; Expires=${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)}; SameSite=Strict`);
         // console.log("res.cookies.jwt",res.cookie.jwt);
         return res.status(200).json(
@@ -93,87 +103,3 @@ const doLogin = async (req, res) => {
     // }
 }
 module.exports = { doSignup, doLogin }
-
-// const usersCollection = require('../models/userModel')
-// const bcrypt = require("bcrypt")
-// const jwt=require("jsonwebtoken")
-//  jwt toekn
-// const doSignUp = async (req, res) => {
-//     try {
-//         console.log('req.body in signup', req.body)
-//         const salt = await bcrypt.genSalt(10)
-//         const passwordHash = await bcrypt.hash(req.body.password, salt)
-
-//         console.log("passwordHash and salt", passwordHash, "  ", salt);
-
-//         const user = new usersCollection({
-//             email: req.body.email,
-//             password: passwordHash,
-//             firstName: req.body.firstName,
-//             lastName: req.body.lastName,
-//         })
-//         const result = await user.save()
-//         console.log("result in signup", result);
-
-//         res.status(200).json({
-//             message: "user is added",
-//             data: {
-//                 email: req.body.email,
-//                 firstName: req.body.firstName,
-//                 lastName: req.body.lastName,
-//             }
-//         })
-//     } catch (error) {
-//         res.status(500).json({
-//             message: "operaion failed",
-//             data: [],
-//             error: error
-//         })
-//     }
-// }
-// const doLogin = async (req, res) => {
-//     // res.send("ok")
-//     try {
-//         console.log("req.body in login", req.body);
-//         const userData = await usersCollection.findOne({ email: req.body.email })
-//         console.log('====================================');
-//         console.log(req.body, userData);
-//         console.log('====================================');
-//         if (!userData || !userData?.password) {
-//             res.status(500).json({
-//                 message: "user is not found",
-//                 data: []
-//             })
-//         }
-//         const passwordDecode = await bcrypt.compare(req.body.password, userData.password)
-//         console.log("passwordDecode", passwordDecode)
-
-//         if (!passwordDecode) {
-//             res.status(500).json({
-//                 message: "wrong password",
-//                 data: []
-//             })
-//         }
-//         const token = await jwt.sign({ email: userData.email, firstName: userData.firstName, lastName: userData.lastName }, process.env.secretkey)
-
-//         console.log("token", token)
-//         res.status(200).json({
-//             message: "successfully logined",
-//             data: {
-//                 email: req.body.email,
-//                 firstName: userData.firstName,
-//                 lastName: userData.lastName,
-//                 token
-//             }
-//         })
-//     } catch (error) {
-//         console.log("error in login",error)
-//         res.status(500).json({
-//             message: 'failed',
-//             error: error,
-//             data: []
-//         })
-//     }
-// }
-
-// module.exports = { doLogin, doSignUp }

@@ -14,7 +14,7 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
         const product = await axiosWithCookies.post("http://localhost:8080/products/createProduct", { productDetails })
         console.log("uploaded product", product)
         const productDetail = product.data;
-        console.log("signupedUser Data is", productDetail);
+        console.log("product data is", productDetail);
         return productDetail
     }
     catch (e) {

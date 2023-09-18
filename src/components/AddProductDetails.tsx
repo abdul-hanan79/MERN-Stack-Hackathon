@@ -4,7 +4,20 @@ import { ProductSchema } from "@/schemas/productSchema";
 import { useFormik, ErrorMessage, Field } from "formik";
 import InputBlock from "./InputBlock";
 import Button from "./ui/Button";
+import { useEffect } from "react";
+// import Select from 'react-select';
+import useDashboard from "@/customHooks/useDashboard";
 const ProductForm = () => {
+    const { checkUserLogin } = useDashboard();
+    useEffect(() => {
+        checkUserLogin()
+    })
+    const options = [
+        { value: 'clothes', label: 'Clothes' },
+        { value: 'shoes', label: 'Shoes' },
+        { value: 'accessories', label: 'Accessories' },
+        // Add more options as needed
+    ];
     const { uploadProductDetails } = useProducts();
     const initialValues = {
         name: '',
@@ -12,7 +25,7 @@ const ProductForm = () => {
         price: '',
         color: '',
         size: '',
-        category: '',
+        category: ['clothes', 'shoes', 'accessories'],
         // images: [],
         stock: '',
         // category: '',
@@ -34,7 +47,7 @@ const ProductForm = () => {
 
     console.log("error", errors)
     console.log("isvalid", isValid)
-
+    console.log("values", values);
     return (
         <>
             <div className="container mx-auto">
@@ -45,33 +58,28 @@ const ProductForm = () => {
 
                             <InputBlock label="Descriptions" type="text" name="description" id="description" className='rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700' placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} />
 
-                            <InputBlock label="Price" type="number" name="price" id="price" placeholder="enter produce price" value={values.price} onChange={handleChange} onBlur={handleBlur} error={errors.price} touched={touched.price} />
-
                             <div className="mb-4">
-                                {/* label="Descriptions" type="text" name="description" id="description"  placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} */}
-                                <label htmlFor="selectedOption" className="block text-gray-700 text-sm font-bold mb-2">
+                                <label htmlFor="category" className="block text-gray-700 text-sm font-bold mb-2">
                                     Select an option
                                 </label>
-                                <Field
-                                    as="select"
+                                <select
                                     id="category"
                                     name="category"
-                                    className={`block appearance-none w-full bg-white border border-gray-300 rounded-md py-2 px-3 leading-tight focus:outline-none focus:shadow-outline`}
+                                    className="w-full"
                                     value={values.category}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 >
                                     <option value="" label="Select an option" />
-                                    <option value="clothes" label="Clotehs" />
+                                    <option value="clothes" label="Clothes" />
                                     <option value="shoes" label="Shoes" />
                                     <option value="accessories" label="Accessories" />
-                                </Field>
-                                <ErrorMessage
-                                    name="category"
-                                    component="p"
-                                    className="text-red-500 text-xs italic"
-                                />
-                            </div>
+                                </select>
+
+                                {/* {touched.selectedOption && errors.selectedOption && (
+                                    <div className="text-red-500 text-xs italic">{errors.selectedOption}</div>
+                                )} */}
+                            </div>                            <InputBlock label="Price" type="number" name="price" id="price" placeholder="enter produce price" value={values.price} onChange={handleChange} onBlur={handleBlur} error={errors.price} touched={touched.price} />
 
                             <InputBlock label="Color" type="text" name="color" id="color" placeholder="Product Color" value={values.color} onChange={handleChange} onBlur={handleBlur} error={errors.color} touched={touched.color} />
 
