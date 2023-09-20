@@ -3,7 +3,7 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
 import { useRouter } from "next/navigation";
 import { submitProduct } from '@/store/productSlice';
-import { prodcutType } from '@/types/types';
+import { productType } from '@/types/types';
 import { useUserLogined } from '@/utils/userLogined';
 
 
@@ -12,12 +12,13 @@ const useProducts = () => {
     const { loginUserDetails } = useUserLogined()
     console.log("user id is", loginUserDetails.id);
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
-    const uploadProductDetails = async (values: prodcutType) => {
-        const productDetails: prodcutType = {
+    const uploadProductDetails = async (values: productType) => {
+        const productDetails: productType = {
             name: values.name,
             description: values.description,
             category: values.category,
             price: values.price,
+            image: values.image,
             color: values.color,
             size: values.size,
             stock: values.stock,

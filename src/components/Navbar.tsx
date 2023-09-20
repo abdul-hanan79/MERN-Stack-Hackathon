@@ -32,11 +32,10 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex space-x-4">
 
-                <button className="text-white hover:text-blue-200" ><Link href='/dashboard'>Dashboard</Link></button>
 
                 {/* {!userLoggedIn: */}
                 {!isUserLoggedIn ?
-                    <div>
+                    <div className='flex gap-2'>
                         <Link href="/login">
                             <button
                                 className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
@@ -51,7 +50,8 @@ const Navbar = () => {
                                 Signup
                             </button>
                         </Link>
-                    </div> : <div>
+                    </div> : <div className='flex gap-2 '>
+                        <button className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50" ><Link href='/dashboard'>Dashboard</Link></button>
 
                         <button
                             className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"

@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
 
 import axios from "axios";
-import { prodcutType } from "@/types/types";
+import { productType } from "@/types/types";
 
 const axiosWithCookies = axios.create({
     withCredentials: true,
 });
 
-export const submitProduct = createAsyncThunk(('product/submitProduct'), async (productDetails: prodcutType) => {
+export const submitProduct = createAsyncThunk(('product/submitProduct'), async (productDetails: productType) => {
     try {
         console.log("prodcut details", productDetails);
         const product = await axiosWithCookies.post("http://localhost:8080/products/createProduct", { productDetails })

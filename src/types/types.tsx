@@ -11,13 +11,14 @@ export type loginUserType = {
     password: string;
 }
 
-export type prodcutType = {
+export type productType = {
     name: string,
     category: string,
     description: string,
     price: number,
     color: string,
     size: number,
+    image: string,
     // images: Yup.array().of(Yup.string().url('Invalid image URL')).required('Product images are required'),
     stock: number,
     userId?: string,
