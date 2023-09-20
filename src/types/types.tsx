@@ -18,7 +18,7 @@ export type productType = {
     price: number,
     color: string,
     size: number,
-    image: string,
+    image: File,
     // images: Yup.array().of(Yup.string().url('Invalid image URL')).required('Product images are required'),
     stock: number,
     userId?: string,

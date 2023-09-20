@@ -12,7 +12,7 @@ const InputBlock = (props: any) => {
                 name={props.name}
                 id={props.id}
                 // className="rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700"
-                className={`rounded-lg shadow-md p-1 ${props?.className}`}
+                className={`rounded-lg shadow-md p-1 ${props?.className || null}`}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={props.onChange}

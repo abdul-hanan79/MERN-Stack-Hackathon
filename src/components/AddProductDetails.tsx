@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 import Image from 'next/image'
 // import Select from 'react-select';
 import useDashboard from "@/customHooks/useDashboard";
+import PreviewImage from "./PreviewImage";
 const ProductForm = () => {
-    const [image, setimage] = useState<File | null>(null)
+    // const [selectedImage, setSelectedImage] = useState<[] | null>(null)
     const { checkUserLogin } = useDashboard();
     useEffect(() => {
         checkUserLogin()
@@ -33,7 +34,7 @@ const ProductForm = () => {
         stock: '',
         // ratings: [{ userId: '', rating: '', review: '' }],
     };
-    const { values, handleBlur, handleSubmit, handleChange, isValid, errors, touched } =
+    const { values, handleBlur, handleSubmit, handleChange, isValid, setFieldValue, errors, touched } =
         useFormik({
             initialValues,
             validationSchema: ProductSchema,
@@ -46,7 +47,6 @@ const ProductForm = () => {
             }
 
         })
-
     console.log("error", errors)
     console.log("isvalid", isValid)
     console.log("values", values);
@@ -56,19 +56,11 @@ const ProductForm = () => {
                 <div className="flex ">
                     <div className="mx-auto p-5 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            <input type='file' onChange={(e) => {
-                                if (!e.target.files) {
-                                    return;
-                                }
-                                setimage(e.target.files[0])
-                            }} />
-                            {/* {
-                                image ?
-                                    <Image width={200} height={200} src={URL.createObjectURL(image)} alt='' />
-                                    :
-                                    car?.image &&
-                                    <Image width={200} height={200} src={car.image} alt='' />
-                            } */}
+                            {values.image && <PreviewImage file={values.image} />}
+                            
+                            <InputBlock label="Product Image" type="file" name="image" id="image" onChange={(event: any) => {
+                                setFieldValue("image", event.target.files[0])
+                            }} onBlur={handleBlur} error={errors.image} touched={touched.image} className='appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline' />
                             <InputBlock label="Product Name" type="text" name="name" id="name" placeholder="Product Name" value={values.name} onChange={handleChange} onBlur={handleBlur} error={errors.name} touched={touched.name} />
 
                             <InputBlock label="Descriptions" type="text" name="description" id="description" className='rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700' placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} />
@@ -91,10 +83,11 @@ const ProductForm = () => {
                                     <option value="accessories" label="Accessories" />
                                 </select>
 
-                                {/* {touched.selectedOption && errors.selectedOption && (
+                            {/* {touched.selectedOption && errors.selectedOption && (
                                     <div className="text-red-500 text-xs italic">{errors.selectedOption}</div>
                                 )} */}
-                            </div>                            <InputBlock label="Price" type="number" name="price" id="price" placeholder="enter produce price" value={values.price} onChange={handleChange} onBlur={handleBlur} error={errors.price} touched={touched.price} />
+                            </div> 
+                            <InputBlock label="Price" type="number" name="price" id="price" placeholder="enter produce price" value={values.price} onChange={handleChange} onBlur={handleBlur} error={errors.price} touched={touched.price} />
 
                             <InputBlock label="Color" type="text" name="color" id="color" placeholder="Product Color" value={values.color} onChange={handleChange} onBlur={handleBlur} error={errors.color} touched={touched.color} />
 

@@ -10,7 +10,7 @@ const doGetProduct = (req, res) => {
 const doCreateProduct = async (req, res) => {
     try {
         console.log("reqbody", req.body)
-        const imageDetails = await UploadImage(req.body.image)
+        const imageDetails = await UploadImage(req.body.productDetails.image)
         console.log("image detail", imageDetails);
         // console.log("req", req);
         console.log("req.body ", req.body);

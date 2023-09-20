@@ -9,7 +9,8 @@ export const ProductSchema = Yup.object().shape({
     price: Yup.number().required('Product price is required'),
     color: Yup.string().required('Product color is required'),
     size: Yup.string().required('Product size is required'),
-    image: Yup.mixed().required(),
+    image: Yup.mixed().required().test("FILE_TYPE", "invalid", (value: any) => value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type)),
+    // .test("FILE_SIZE", "TOO BIG ", (value: any) => value && value.size < 1024 * 1024)
     stock: Yup.number().required('Product stock is required'),
     // ratings: Yup.array().of(
     //     Yup.object().shape({
