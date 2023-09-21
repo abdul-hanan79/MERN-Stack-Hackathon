@@ -9,7 +9,7 @@ require('dotenv').config();
 // signup
 const doSignup = async (req, res) => {
     try {
-        await prisma.$connect();
+        // await prisma.$connect();
         console.log("singupUser", req.body)
         const salt = await bcrypt.genSalt(10)
         const passwordHash = await bcrypt.hash(req.body.user.password, salt)
@@ -99,7 +99,8 @@ const doLogin = async (req, res) => {
             message: 'login failed'
         })
     }
-    // finally {
-    // }
+    finally {
+        await prisma.$disconnect()
+    }
 }
 module.exports = { doSignup, doLogin }

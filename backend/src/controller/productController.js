@@ -1,7 +1,8 @@
-// var post = []
-
+const { type } = require("os");
 const { UploadImage } = require("../utils/cloudinary")
+const { PrismaClient } = require('@prisma/client');
 
+const prisma = new PrismaClient();
 
 const doGetProduct = (req, res) => {
     console.log('get post is running')
@@ -15,13 +16,41 @@ const doCreateProduct = async (req, res) => {
         const imageDetails = await UploadImage(file.tempFilePath)
         console.log("image detail", imageDetails);
         console.log("req.body ", req.body);
+        const productData = {
+            name: req.body.name,
+            category: req.body.category,
+            description: req.body.description,
+            price: req.body.price,
+            color: req.body.color,
+            size: req.body.size,
+            image: imageDetails.secure_url,
+            stock: req.body.stock,
+            userId: req.body.userId,
+        }
+        console.log("data is ", productData)
+        console.log("type of ", typeof (productData.price), typeof (productData.stock));
+        const product = await prisma.Product.create({
+            data: {
+                name: req.body.name,
+                category: req.body.category,
+                description: req.body.description,
+                price: req.body.price,
+                color: req.body.color,
+                size: req.body.size,
+                image: imageDetails.secure_url,
+                stock: req.body.stock,
+                userId: req.body.userId,
+            }
+        })
+        console.log("this is working")
+        console.log("product is", product)
         // console.log("req.cookies", req.cookies);
         // post.push(req.body);
-        res.json({ data: "hello" });
+        res.json({ data: product });
     }
     catch (error) {
         return res.json({
-            error: error,
+            error,
             message: 'Product Submission Failed'
         })
     }

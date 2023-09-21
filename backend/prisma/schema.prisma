@@ -15,37 +15,141 @@ model User {
   name      String
   email     String    @unique
   password  String
-  createdAt DateTime  @default(now())
   role      String    @default("visitor")
-  Product   Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  product   Product[]
 }
+
 
 model Product {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  color      String
-  descrption String
-  category   String
-  price      Float
-  size       Int
-  stock      Int
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   String    @db.ObjectId
-  comments   Reviews[]
-  Image      Image[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  category    String
+  description String
+  price       String
+  color       String
+  size        String
+  image       String
+  stock       String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?  @updatedAt
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+  Ratings     Ratings[]
 }
 
-model Image {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  url       String
-  imageId   String
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
+model Ratings {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating    Int
+  reviews   String
+  userId    String   @db.ObjectId
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?  @db.ObjectId
 }
 
-model Reviews {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  comment   String
-  post      Product @relation(fields: [ProductId], references: [id])
-  ProductId String  @db.ObjectId
-}
+// model User {
+//   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   email     String    @unique
+//   password  String
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   Product   Product[]
+// }
+
+// not usefull
+// model Product {
+//   id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   color      String
+//   descrption String
+//   category   String
+//   price      Float
+//   size       Int
+//   stock      Int
+//   author     User      @relation(fields: [authorId], references: [id])
+//   authorId   String    @db.ObjectId
+//   comments   Reviews[]
+//   Image      Image[]
+// }
+
+// model Image {
+//   id        String  @id @default(auto()) @map("_id") @db.ObjectId
+//   url       String
+//   imageId   String
+//   product   Product @relation(fields: [productId], references: [id])
+//   productId String
+// }
+
+// model Reviews {
+//   id        String  @id @default(auto()) @map("_id") @db.ObjectId
+//   comment   String
+//   post      Product @relation(fields: [ProductId], references: [id])
+//   ProductId String  @db.ObjectId
+// }
+// acutal
+// model Product {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   category    String
+//   description String
+//   price       Float
+//   color       String
+//   size        String
+//   images      String // Array of image URLs
+//   ratings     Rating[]
+//   stock       Int
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   User        User?    @relation(fields: [userId], references: [id])
+//   userId      String?  @db.ObjectId
+// }
+
+// model Rating {
+//   id        String  @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String  @db.ObjectId
+//   rating    Int
+//   review    String
+//   product   Product @relation(fields: [productId], references: [id])
+//   productId String
+// }
+
+// model Cart {
+//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String     @db.ObjectId
+//   items     CartItem[]
+//   createdAt DateTime   @default(now())
+//   updatedAt DateTime   @updatedAt
+// }
+
+// model CartItem {
+//   id        String @id @default(auto()) @map("_id") @db.ObjectId
+//   productId String @db.ObjectId
+//   quantity  Int
+//   cart      Cart   @relation(fields: [cartId], references: [id])
+//   cartId    String
+// }
+
+// model Order {
+//   id              String      @id @default(auto()) @map("_id") @db.ObjectId
+//   userId          String      @db.ObjectId
+//   items           OrderItem[]
+//   totalPrice      Float
+//   status          String
+//   shippingAddress String
+//   createdAt       DateTime    @default(now())
+//   updatedAt       DateTime    @updatedAt
+// }
+
+// model OrderItem {
+//   id        String @id @default(auto()) @map("_id") @db.ObjectId
+//   productId String @db.ObjectId
+//   quantity  Int
+//   order     Order  @relation(fields: [orderId], references: [id])
+//   orderId   String
+// }
+
+// model NewUser {
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+// }

@@ -13,11 +13,10 @@ const UploadImage = async (url) => {
     //     folder: "car-rental-mobile"
     // });
     return await cloudinary.uploader.upload(url, {
-
         folder: "finalHackathon"
     }, (err, result) => {
         console.log("result", result)
-        console.log("error", err)
+        console.log("error in", err)
     });
 };
 
