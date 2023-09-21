@@ -10,8 +10,22 @@ const axiosWithCookies = axios.create({
 
 export const submitProduct = createAsyncThunk(('product/submitProduct'), async (productDetails: productType) => {
     try {
-        console.log("prodcut details", productDetails);
-        const product = await axiosWithCookies.post("http://localhost:8080/products/createProduct", { productDetails })
+        const formData = new FormData();
+        formData.append("name", productDetails.name)
+        formData.append("category", productDetails.category)
+        formData.append("color", productDetails.color)
+        formData.append("description", productDetails.description)
+        formData.append("image", productDetails.image)
+        formData.append("price", productDetails.price.toString())
+        formData.append("size", productDetails.size.toString())
+        formData.append("stock", productDetails.stock.toString())
+        formData.append("userId", productDetails.userId)
+        console.log("form data", formData)
+        const product = await axiosWithCookies.post("http://localhost:8080/products/createProduct", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         console.log("uploaded product", product)
         const productDetail = product.data;
         console.log("product data is", productDetail);

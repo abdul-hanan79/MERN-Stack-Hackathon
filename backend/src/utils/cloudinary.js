@@ -9,8 +9,15 @@ cloudinary.config({
 
 const UploadImage = async (url) => {
     console.log("image url ", url);
+    // return await cloudinary.uploader.upload(url, {
+    //     folder: "car-rental-mobile"
+    // });
     return await cloudinary.uploader.upload(url, {
-        folder: "car-rental-mobile"
+
+        folder: "finalHackathon"
+    }, (err, result) => {
+        console.log("result", result)
+        console.log("error", err)
     });
 };
 

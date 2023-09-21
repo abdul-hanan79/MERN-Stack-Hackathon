@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv');
 const cors = require("cors");
+const fileUpload = require('express-fileupload')
 // const { default: verifyUser } = require('./src/utils/verifyUser');
 
 dotenv.config();
@@ -18,6 +19,9 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
 }));
+app.use(fileUpload({
+    useTempFiles:true
+}))
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // cookie parer

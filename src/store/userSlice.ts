@@ -1,18 +1,4 @@
-// import { async } from "@firebase/util";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"
-// import {
-//     collection,
-//     getDocs,
-//     addDoc,
-//     deleteDoc,
-//     doc,
-//     updateDoc,
-// } from "firebase/firestore";
-// import { db, storage } from "../config/Firebase";
-// import { EditIcon } from "@chakra-ui/icons";
-// import { TodoType } from "../types/TodoType";
-
 
 export const submitUser = createAsyncThunk("user/submitUser", async (item: any) => {
     console.log("submit user is running");
