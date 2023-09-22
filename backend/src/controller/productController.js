@@ -4,9 +4,35 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const doGetProduct = (req, res) => {
-    console.log('get post is running')
-    res.json({ data: post })
+const doGetProducts = async (req, res) => {
+    try {
+        // const products = await prisma.User.findMany({
+        //     include: {
+        //         products: {
+        //             include: {
+        //                 ratings: true
+        //             }
+        //         }
+        //     }
+        // });
+        const products = await prisma.Product.findMany({
+            include: {
+                ratings: true,
+            }
+        });
+        console.log("products is", products)
+        console.log('get post is running')
+        res.json({ data: products })
+    }
+    catch (e) {
+        res.json({
+            error: e.message,
+            message: "not getting data"
+        })
+    }
+    finally {
+        await prisma.$disconnect()
+    }
 }
 const doCreateProduct = async (req, res) => {
     try {
@@ -30,17 +56,7 @@ const doCreateProduct = async (req, res) => {
         console.log("data is ", productData)
         console.log("type of ", typeof (productData.price), typeof (productData.stock));
         const product = await prisma.Product.create({
-            data: {
-                name: req.body.name,
-                category: req.body.category,
-                description: req.body.description,
-                price: req.body.price,
-                color: req.body.color,
-                size: req.body.size,
-                image: imageDetails.secure_url,
-                stock: req.body.stock,
-                userId: req.body.userId,
-            }
+            data: productData
         })
         console.log("this is working")
         console.log("product is", product)
@@ -58,31 +74,69 @@ const doCreateProduct = async (req, res) => {
 
     }
 }
-const doDeleteProduct = (req, res) => {
-    const updatePost = post.filter(post => post.id != req.query.id)
-    post = updatePost
-    res.json({ updatdPost: post })
-}
-const doUpdateProduct = (req, res) => {
-    const updatedPost = post.map((post) => {
-        if (post.id == req.body.id) {
-            const update = {
-                ...post,
-                creator: req.body.creator || post.creator,
-                postTitle: req.body.postTitle,
+const doDeleteProduct = async (req, res) => {
+    const productId = req.query.id;
+    console.log("product id", productId)
+    try {
 
+        const deletedProduct = await prisma.Product.delete({
+            where: {
+                id: productId
             }
-            console.log(update)
-            return update
-        }
-        else {
-            return post
-        }
-    })
-    post = updatedPost
-    res.json({ data: post })
+        })
+        // const products = await prisma.Product.findMany()
+        res.json({
+            data: deletedProduct,
+            message: "product deleted successfullf"
+        })
+    }
+    catch (error) {
+        res.json({
+            error: error.message,
+            message: "not delte"
+        })
+    }
+    finally {
+        await prisma.$disconnect();
+    }
 }
-module.exports = { doGetProduct, doCreateProduct, doDeleteProduct, doUpdateProduct }
+const doUpdateProduct = async (req, res) => {
+    try {
+        const updateProductData = {
+            name: req.body.name,
+            category: req.body.category,
+            description: req.body.description,
+            price: req.body.price,
+            color: req.body.color,
+            size: req.body.size,
+            image: req.body.image,
+            stock: req.body.stock,
+            userId: req.body.userId,
+        }
+        console.log("reqbody", updateProductData)
+        const updatedProduct = await prisma.Product.update({
+            where: {
+                id: req.body.id
+            },
+            data: updateProductData
+        })
+        console.log("updatd product is ", updatedProduct)
+        res.json({
+            data: updatedProduct,
+            message: "product updated"
+        })
+    }
+    catch (error) {
+        res.json({
+            error: error,
+            message: "update product failed"
+        })
+    }
+    finally {
+        await prisma.$disconnect();
+    }
+}
+module.exports = { doGetProducts, doCreateProduct, doDeleteProduct, doUpdateProduct }
 
 
 // image detail {
