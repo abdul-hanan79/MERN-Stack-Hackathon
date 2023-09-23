@@ -18,6 +18,8 @@ model User {
   role      String    @default("visitor")
   createdAt DateTime  @default(now())
   products  Product[]
+  Cart      Cart[]
+  Order     Order[]
 }
 
 model Product {
@@ -44,6 +46,43 @@ model Ratings {
   userId    String   @db.ObjectId
   product   Product? @relation(fields: [productId], references: [id])
   productId String?  @db.ObjectId
+}
+
+model Cart {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  User      User?       @relation(fields: [userId], references: [id])
+  userId    String      @db.ObjectId
+  items     CartItems[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model CartItems {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  Cart      Cart?   @relation(fields: [cartId], references: [id])
+  cartId    String? @db.ObjectId
+  productId String  @db.ObjectId
+  quantity  Int
+}
+
+model Order {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  User            User?       @relation(fields: [userId], references: [id])
+  userId          String      @db.ObjectId
+  items           OrderItem[]
+  totalPrice      Float
+  status          String
+  shippingAddress String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  productId String @db.ObjectId
+  quantity  Int
+  order     Order  @relation(fields: [orderId], references: [id])
+  orderId   String @db.ObjectId
 }
 
 // model User {

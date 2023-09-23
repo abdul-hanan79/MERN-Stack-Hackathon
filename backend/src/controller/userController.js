@@ -22,6 +22,12 @@ const doSignup = async (req, res) => {
         })
         // console.log("signup is running", req.body)
         console.log("signup user ", newUser)
+        const newCart = await prisma.Cart.create({
+            data: {
+                userId: newUser.id
+            }
+        })
+        console.log("newCart", newCart);
         res.json({
             email: newUser.email,
             name: newUser.name,

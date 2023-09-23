@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 const productRoutes = require('./src/routes/productRoutes')
 const userRoutes = require('./src/routes/userRoutes')
 const ratingsRoutes = require('./src/routes/ratingRoutes')
+const cartItemsRoutes = require('./src/routes/cartItemsRoutes')
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv');
@@ -36,9 +37,10 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 
 app.use('/products', productRoutes)
-
 app.use('/user', userRoutes)
 app.use('/ratings', ratingsRoutes)
+app.use('/cartItem', cartItemsRoutes)
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
