@@ -8,8 +8,8 @@ const doCreateCartItem = async (req, res) => {
             productId: req.body.productId,
             quantity: req.body.quantity
         }
-        const uploadCartItem = await prisma.CartItem.create({
-            data: cartItem,
+        const uploadCartItem = await prisma.CartItems.create({
+            data: cartItem
         })
         console.log("uploadCartItem", uploadCartItem);
         res.json({
@@ -19,7 +19,7 @@ const doCreateCartItem = async (req, res) => {
     }
     catch (error) {
         res.json({
-            error: error,
+            error: error.message,
             message: "unsuccessful"
         })
     }
@@ -58,10 +58,10 @@ const doCreateCartItem = async (req, res) => {
 // }
 const doDeleteCartItem = async (req, res) => {
     try {
-        const ratingId = req.query.id
-        await prisma.Ratings.delete({
+        const cartItemId = req.query.id
+        await prisma.CartItems.delete({
             where: {
-                id: ratingId,
+                id: cartItemId,
             }
         })
         res.json({
@@ -71,7 +71,7 @@ const doDeleteCartItem = async (req, res) => {
     }
     catch (error) {
         res.json({
-            error: error,
+            error: error.message,
             message: "unsuccessful"
         })
     }
@@ -81,9 +81,22 @@ const doDeleteCartItem = async (req, res) => {
 }
 const doGetCartItems = async (req, res) => {
     try {
-        const allRatings = await prisma.Ratings.findManyk();
+        const userId = req.body.userId;
+        const userWithCart = await prisma.User.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                Cart: {
+                    include: {
+                        items: true
+                    }
+                }
+            }
+
+        })
         res.json({
-            data: allRatings,
+            data: userWithCart,
             message: "successfull"
         })
     }
