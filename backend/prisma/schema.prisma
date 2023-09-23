@@ -78,11 +78,11 @@ model Order {
 }
 
 model OrderItem {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  productId String @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  productId String  @db.ObjectId
   quantity  Int
-  order     Order  @relation(fields: [orderId], references: [id])
-  orderId   String @db.ObjectId
+  order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   String? @db.ObjectId
 }
 
 // model User {
