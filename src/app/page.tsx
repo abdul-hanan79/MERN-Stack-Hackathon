@@ -1,10 +1,8 @@
+import Spinner from '@/components/ui/Spinner';
 import Image from 'next/image'
 
 export default function Home() {
   return (
-
-
-
     <div className="bg-gray-100">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-500 to-indigo-500 py-32 px-8 text-center text-white">

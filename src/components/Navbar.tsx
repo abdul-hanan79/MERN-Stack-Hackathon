@@ -2,7 +2,7 @@
 import useDashboard from '@/customHooks/useDashboard';
 import { useLogin } from '@/customHooks/useLogin';
 import { useSignup } from '@/customHooks/useSignup';
-import { useUserLogined } from '@/utils/userLogined';
+import { useUserLogined } from '@/customHooks/utils/userLogined';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -25,9 +25,12 @@ const Navbar = () => {
     // const { goToSignup } = useSignup()
     return (
         <nav className="bg-blue-500 p-4 flex items-center justify-between">
-            <div>
+            <div className='flex gap-2'>
                 <Link href="/">
                     <p className="text-white text-xl font-bold hover:text-blue-200">eCommerce</p>
+                </Link>
+                <Link href="/product">
+                    <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">All Products</p>
                 </Link>
             </div>
             <div className="hidden md:flex space-x-4">

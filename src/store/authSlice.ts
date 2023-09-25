@@ -73,7 +73,7 @@ const authSlice = createSlice({
                     ...state,
                     user: action.payload,
                     userRole: action.payload.role,
-                    isLoggedIn: true,
+                    isLoggedIn: action.payload.message == "successfull" ? true : false,
                     currentUserRequestLoader: false /*this is extra*/
                 };
                 console.log("user after login", newState.user);

@@ -7,7 +7,11 @@ import { productType } from "@/types/types";
 const axiosWithCookies = axios.create({
     withCredentials: true,
 });
-
+export const fetchProducts = createAsyncThunk(('product/fetchProducts'), async () => {
+    const allProducts = await axios.get("http://localhost:8080/products/getProducts")
+    console.log("all products", allProducts)
+    return allProducts
+})
 export const submitProduct = createAsyncThunk(('product/submitProduct'), async (productDetails: productType) => {
     try {
         const formData = new FormData();

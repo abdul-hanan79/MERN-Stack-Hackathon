@@ -5,10 +5,11 @@ import { RootState } from '../store/store'
 import { loginUser } from "@/store/authSlice"
 import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
-import { useUserLogined } from "@/utils/userLogined"
+import { useUserLogined } from "@/customHooks/utils/userLogined"
 
 
 export const useLogin = () => {
+  const [loader, setLoader] = useState(false)
   const router = useRouter();
   const [loginError, setLoginError] = useState(null)
   const { isUserLoggedIn } = useUserLogined();
@@ -45,7 +46,9 @@ export const useLogin = () => {
   return {
     doLogin,
     loginError,
-    goToLogin
+    goToLogin,
+    loader,
+    setLoader
   }
 }
 

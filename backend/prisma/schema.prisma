@@ -27,7 +27,7 @@ model Product {
   name        String
   category    String
   description String
-  price       String
+  price       Float
   color       String
   size        String
   image       String

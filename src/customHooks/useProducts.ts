@@ -4,7 +4,7 @@ import { RootState } from '../store/store'
 import { useRouter } from "next/navigation";
 import { submitProduct } from '@/store/productSlice';
 import { productType } from '@/types/types';
-import { useUserLogined } from '@/utils/userLogined';
+import { useUserLogined } from '@/customHooks/utils/userLogined';
 
 
 const useProducts = () => {

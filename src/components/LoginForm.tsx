@@ -11,7 +11,8 @@ import Button from "./ui/Button";
 import ErrorBox from "./ui/ErrorBox";
 
 const LoginForm = () => {
-    const { doLogin, loginError } = useLogin()
+    const { doLogin, loginError, loader,
+        setLoader } = useLogin()
     const initialValues = {
         email: "",
         password: "",
@@ -24,10 +25,13 @@ const LoginForm = () => {
             validateOnBlur: false,
             //// By disabling validation onChange and onBlur formik will validate on submit.
             onSubmit: async (values, action) => {
+                setLoader(true)
                 await doLogin(values)
                 action.resetForm();
+                setLoader(false)
             },
         });
+    console.log("is valid", isValid);
     return (
         <>
             <div className="container mx-auto">
@@ -49,7 +53,7 @@ const LoginForm = () => {
                                 touched={touched.password}
                             />
                             {loginError && <ErrorBox error={loginError} />}
-                            <Button type="submit" title="Login" />
+                            <Button type="submit" title="Login" loading={loader} isValid={isValid} />
                         </form>
                         <p className="sign-up text-sm text-slate-500">
                             Do not have accout? <Link href="/signup" className="text-blue-600 underline-offset-auto">Sign Up Now</Link>

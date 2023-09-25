@@ -16,7 +16,6 @@ const doGetProducts = async (req, res) => {
         const response = {
             result: products,
             message: "successfull"
-
         }
         res.json(response)
     }
@@ -43,7 +42,7 @@ const doCreateProduct = async (req, res) => {
             name: req.body.name,
             category: req.body.category,
             description: req.body.description,
-            price: req.body.price,
+            price: parseFloat(req.body.price),
             color: req.body.color,
             size: req.body.size,
             image: imageDetails.secure_url,
@@ -66,6 +65,7 @@ const doCreateProduct = async (req, res) => {
         res.json(response);
     }
     catch (error) {
+        console.log(error.message)
         const response = {
             error,
             message: "unsuccessful"
