@@ -6,15 +6,6 @@ const prisma = new PrismaClient();
 
 const doGetProducts = async (req, res) => {
     try {
-        // const products = await prisma.User.findMany({
-        //     include: {
-        //         products: {
-        //             include: {
-        //                 ratings: true
-        //             }
-        //         }
-        //     }
-        // });
         const products = await prisma.Product.findMany({
             include: {
                 ratings: true,
@@ -22,13 +13,19 @@ const doGetProducts = async (req, res) => {
         });
         console.log("products is", products)
         console.log('get post is running')
-        res.json({ data: products })
+        const response = {
+            result: products,
+            message: "successfull"
+
+        }
+        res.json(response)
     }
-    catch (e) {
-        res.json({
-            error: e.message,
-            message: "not getting data"
-        })
+    catch (error) {
+        const response = {
+            error,
+            message: "unsuccessful"
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -62,39 +59,43 @@ const doCreateProduct = async (req, res) => {
         console.log("product is", product)
         // console.log("req.cookies", req.cookies);
         // post.push(req.body);
-        res.json({ data: product });
+        const response = {
+            result: product,
+            message: "successfull"
+        }
+        res.json(response);
     }
     catch (error) {
-        return res.json({
+        const response = {
             error,
-            message: 'Product Submission Failed'
-        })
+            message: "unsuccessful"
+        }
+        return res.json(response)
     }
     finally {
-
+        await prisma.$disconnect();
     }
 }
 const doDeleteProduct = async (req, res) => {
     const productId = req.query.id;
     console.log("product id", productId)
     try {
-
         const deletedProduct = await prisma.Product.delete({
             where: {
                 id: productId
             }
         })
-        // const products = await prisma.Product.findMany()
-        res.json({
-            data: deletedProduct,
-            message: "product deleted successfullf"
-        })
+        const response = {
+            message: "successfull"
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error.message,
-            message: "not delte"
-        })
+        const response = {
+            error,
+            message: "unsuccessful"
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect();
@@ -121,16 +122,18 @@ const doUpdateProduct = async (req, res) => {
             data: updateProductData
         })
         console.log("updatd product is ", updatedProduct)
-        res.json({
-            data: updatedProduct,
-            message: "product updated"
-        })
+        const response = {
+            result: updatedProduct,
+            message: "successfull"
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error,
-            message: "update product failed"
-        })
+        const response = {
+            error,
+            message: "unsuccessful"
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect();

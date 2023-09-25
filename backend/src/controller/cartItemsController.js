@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { response } = require('express');
 const prisma = new PrismaClient();
 const doCreateCartItem = async (req, res) => {
     try {
@@ -12,16 +13,18 @@ const doCreateCartItem = async (req, res) => {
             data: cartItem
         })
         console.log("uploadCartItem", uploadCartItem);
-        res.json({
-            data: uploadCartItem,
+        const response = {
+            result: uploadCartItem,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error.message,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -64,16 +67,17 @@ const doDeleteCartItem = async (req, res) => {
                 id: cartItemId,
             }
         })
-        res.json({
-            data: "ok",
-            message: "successfull"
-        })
+        const response = {
+            message: 'successfull'
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error.message,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -93,18 +97,19 @@ const doGetCartItems = async (req, res) => {
                     }
                 }
             }
-
         })
-        res.json({
-            data: userWithCart,
-            message: "successfull"
-        })
+        const response = {
+            result: userWithCart,
+            message: "successfull",
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()

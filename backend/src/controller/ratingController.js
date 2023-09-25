@@ -1,8 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
-
 const doCreateRating = async (req, res) => {
     try {
         console.log("req.body", req.body);
@@ -16,16 +14,19 @@ const doCreateRating = async (req, res) => {
             data: userRating,
         })
         console.log("upload rating", uploadRating);
-        res.json({
-            data: uploadRating,
+        const response = {
+            uploadRating,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
+        const response = {
             error: error,
             message: "unsuccessful"
-        })
+        }
+
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -45,16 +46,18 @@ const doUpdateRating = async (req, res) => {
             data: updateUserRating
         })
         console.log("udpated user rating", updatedRating);
-        res.json({
-            data: "ok",
+        const response = {
+            updatedRating,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -68,10 +71,10 @@ const doDeleteRating = async (req, res) => {
                 id: ratingId,
             }
         })
-        res.json({
-            data: "ok",
+        const response = {
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
         res.json({
@@ -86,16 +89,19 @@ const doDeleteRating = async (req, res) => {
 const doGetRatings = async (req, res) => {
     try {
         const allRatings = await prisma.Ratings.findMany();
-        res.json({
-            data: allRatings,
+        console.log("all rattings", allRatings);
+        const response = {
+            result: allRatings,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()

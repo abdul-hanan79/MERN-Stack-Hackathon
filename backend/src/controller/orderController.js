@@ -1,8 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
+const { clearCart } = require('../utils/clearCart');
 const prisma = new PrismaClient();
 const doCreateOrder = async (req, res) => {
     try {
         console.log("order", req.body.order);
+        const userId = req.body.order.userId
         const orderItems = req.body.order.items.map((item) => {
             const orderItemsDetails = {
                 productId: item.productId,
@@ -11,7 +13,7 @@ const doCreateOrder = async (req, res) => {
             return orderItemsDetails
         })
         const orderDetails = {
-            userId: req.body.order.userId,
+            userId: userId,
             totalPrice: req.body.order.totalPrice,
             status: req.body.order.status,
             shippingAddress: req.body.order.shippingAddress,
@@ -25,52 +27,26 @@ const doCreateOrder = async (req, res) => {
                 },
             },
         });
+        const clearCartItems = await clearCart(userId)
+        console.log("clearCartItems", clearCartItems);
         console.log("upload order", uploadOrder);
-
-        res.json({
-            data: uploadOrder,
+        const response = {
+            result: uploadOrder,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error.message,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
     }
 }
-// const doUpdateRating = async (req, res) => {
-//     try {
-//         const ratingId = req.body.id
-//         const updateUserRating = {
-//             rating: req.body.rating,
-//             reviews: req.body.reviews,
-//         }
-//         const updatedRating = await prisma.Ratings.update({
-//             where: {
-//                 id: ratingId,
-//             },
-//             data: updateUserRating
-//         })
-//         console.log("udpated user rating", updatedRating);
-//         res.json({
-//             data: "ok",
-//             message: "successfull"
-//         })
-//     }
-//     catch (error) {
-//         res.json({
-//             error: error,
-//             message: "unsuccessful"
-//         })
-//     }
-//     finally {
-//         await prisma.$disconnect()
-//     }
-// }
 const doDeleteOrder = async (req, res) => {
     try {
         const orderId = req.query.id
@@ -85,16 +61,17 @@ const doDeleteOrder = async (req, res) => {
                 id: orderId,
             }
         })
-        res.json({
-            data: "ok",
+        const response = {
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error.message,
-            message: "unsuccessful"
-        })
+        const response = {
+            error,
+            message: "unsuccessful",
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()
@@ -116,16 +93,18 @@ const doGetOrders = async (req, res) => {
             }
 
         })
-        res.json({
-            data: userWithCart,
+        const response = {
+            result: userWithCart,
             message: "successfull"
-        })
+        }
+        res.json(response)
     }
     catch (error) {
-        res.json({
-            error: error,
+        const response = {
+            error,
             message: "unsuccessful"
-        })
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect()

@@ -4,12 +4,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 require('dotenv').config();
 
-
-
-// signup
 const doSignup = async (req, res) => {
     try {
-        // await prisma.$connect();
         console.log("singupUser", req.body)
         const salt = await bcrypt.genSalt(10)
         const passwordHash = await bcrypt.hash(req.body.user.password, salt)
@@ -20,7 +16,6 @@ const doSignup = async (req, res) => {
                 name: req.body.user.name
             }
         })
-        // console.log("signup is running", req.body)
         console.log("signup user ", newUser)
         const newCart = await prisma.Cart.create({
             data: {
@@ -28,18 +23,19 @@ const doSignup = async (req, res) => {
             }
         })
         console.log("newCart", newCart);
-        res.json({
+        const response = {
             email: newUser.email,
             name: newUser.name,
-            message: "success"
-        })
+            message: "successfull"
+        };
+        res.json(response)
     } catch (error) {
         console.log(error)
-        res.json({
-            error: error,
+        const response = {
+            error,
             message: 'unsuccessful'
-        })
-
+        }
+        res.json(response)
     }
     finally {
         await prisma.$disconnect();
@@ -89,21 +85,21 @@ const doLogin = async (req, res) => {
         // console.log("verify cookies", res.getHeaders());
         // res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Path=/; Expires=${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)}; SameSite=Strict`);
         // console.log("res.cookies.jwt",res.cookie.jwt);
-        return res.status(200).json(
-            {
-                message: 'Login successful',
-                id: user.id,
-                token: token,
-                name: user.name,
-                email: user.email
-            }
-        );
+        const response = {
+            message: 'successful',
+            id: user.id,
+            token: token,
+            name: user.name,
+            email: user.email
+        }
+        return res.status(200).json(response);
     }
     catch (error) {
-        return res.json({
-            error: error,
-            message: 'login failed'
-        })
+        const response = {
+            error,
+            message: 'unsuccessful'
+        }
+        return res.json(response)
     }
     finally {
         await prisma.$disconnect()
