@@ -21,7 +21,7 @@ export const useSignup = () => {
         console.log("new user is", newUser);
         const action = await dispatch(signupUser(newUser))
         console.log("the signup user is", action);
-        if (action.payload.message == "success") {
+        if (action.payload.message == "successfull") {
             router.push('/login')
         }
         else {

@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 
 const Navbar = () => {
-    const { isUserLoggedIn } = useUserLogined();
+    const { isUserLoggedIn, userRole } = useUserLogined();
     console.log("user logined in navbar", isUserLoggedIn);
     // const { checkUserLogin } = useDashboard();
     // useEffect(() => {
@@ -51,7 +51,7 @@ const Navbar = () => {
                             </button>
                         </Link>
                     </div> : <div className='flex gap-2 '>
-                        <button className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50" ><Link href='/dashboard'>Dashboard</Link></button>
+                        {userRole == "admin" ? <button className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50" ><Link href='/dashboard'>Dashboard</Link></button> : <button className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50" ><Link href='/'>Explore</Link></button>}
 
                         <button
                             className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"

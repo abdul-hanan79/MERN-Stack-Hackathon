@@ -8,9 +8,10 @@ import { useLogin } from "@/customHooks/useLogin";
 import Link from "next/link";
 import InputBlock from "./InputBlock";
 import Button from "./ui/Button";
+import ErrorBox from "./ui/ErrorBox";
 
 const LoginForm = () => {
-    const { doLogin } = useLogin()
+    const { doLogin, loginError } = useLogin()
     const initialValues = {
         email: "",
         password: "",
@@ -22,14 +23,11 @@ const LoginForm = () => {
             validateOnChange: true,
             validateOnBlur: false,
             //// By disabling validation onChange and onBlur formik will validate on submit.
-            onSubmit: (values, action) => {
-                doLogin(values)
+            onSubmit: async (values, action) => {
+                await doLogin(values)
                 action.resetForm();
             },
         });
-
-
-
     return (
         <>
             <div className="container mx-auto">
@@ -50,9 +48,8 @@ const LoginForm = () => {
                                 value={values.password} onChange={handleChange} onBlur={handleBlur} error={errors.password}
                                 touched={touched.password}
                             />
-
+                            {loginError && <ErrorBox error={loginError} />}
                             <Button type="submit" title="Login" />
-
                         </form>
                         <p className="sign-up text-sm text-slate-500">
                             Do not have accout? <Link href="/signup" className="text-blue-600 underline-offset-auto">Sign Up Now</Link>

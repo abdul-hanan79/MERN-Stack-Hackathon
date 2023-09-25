@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Button = (props: any) => {
-    console.log("props.type", props.type);
+    // console.log("props.type", props.type);
     return (
         <div className="modal-buttons">
             <button

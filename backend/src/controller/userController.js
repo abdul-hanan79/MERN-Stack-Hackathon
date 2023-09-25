@@ -33,7 +33,7 @@ const doSignup = async (req, res) => {
         console.log(error)
         const response = {
             error,
-            message: 'unsuccessful'
+            message: 'unsuccessfull'
         }
         res.json(response)
     }
@@ -54,12 +54,12 @@ const doLogin = async (req, res) => {
         });
         console.log("user in login ", user)
         if (!user) {
-            return res.status(404).json({ error: 'User not found', message: 'user not found' });
+            return res.json({ error: 'User not found', message: 'unsuccessfull' });
         }
         // Compare password
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
-            return res.status(401).json({ error: 'Invalid password', message: 'invalid password' });
+            return res.json({ error: 'Invalid password', message: 'unsuccessfull' });
         }
         // Generate token
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
@@ -86,18 +86,19 @@ const doLogin = async (req, res) => {
         // res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Path=/; Expires=${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)}; SameSite=Strict`);
         // console.log("res.cookies.jwt",res.cookie.jwt);
         const response = {
-            message: 'successful',
+            message: 'successfull',
             id: user.id,
             token: token,
             name: user.name,
-            email: user.email
+            email: user.email,
+            role: user.role
         }
         return res.status(200).json(response);
     }
     catch (error) {
         const response = {
             error,
-            message: 'unsuccessful'
+            message: 'unsuccessfull'
         }
         return res.json(response)
     }

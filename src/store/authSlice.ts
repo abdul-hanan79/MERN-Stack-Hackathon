@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
-
 import axios from "axios";
 import { loginUserType, signupUserType } from "@/types/types";
-
-
-
 
 export const signupUser = createAsyncThunk('authUser/signupUser', async (user: signupUserType) => {
     try {
@@ -21,11 +17,8 @@ export const signupUser = createAsyncThunk('authUser/signupUser', async (user: s
     }
 })
 export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentials: loginUserType) => {
-    // console.log("login", email, password);
     console.log("the logined user", userCredentials);
-
     try {
-        // const user = await signInWithEmailAndPassword(auth, email, password)
         const user = await axios.post("http://localhost:8080/user/loginUser", { email: userCredentials.email, password: userCredentials.password })
         console.log("logined user data is", user);
         const userData = user.data
@@ -58,6 +51,7 @@ const authSlice = createSlice({
     initialState: {
         user: {},
         isLoggedIn: false,
+        userRole: null,
         error: null,
         signupUser: {},
         currentUserRequestLoader: true,
@@ -78,11 +72,11 @@ const authSlice = createSlice({
                 let newState: any = {
                     ...state,
                     user: action.payload,
+                    userRole: action.payload.role,
                     isLoggedIn: true,
                     currentUserRequestLoader: false /*this is extra*/
                 };
                 console.log("user after login", newState.user);
-
                 return newState;
             }
 

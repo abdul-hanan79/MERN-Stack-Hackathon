@@ -22,8 +22,8 @@ const SignupForm = () => {
             validateOnChange: true,
             validateOnBlur: false,
             //// By disabling validation onChange and onBlur formik will validate on submit.
-            onSubmit: (values, action) => {
-                doSignup(values)
+            onSubmit: async (values, action) => {
+                await doSignup(values)
                 action.resetForm();
             },
         });
