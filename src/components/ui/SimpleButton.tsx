@@ -1,15 +1,14 @@
 import React from 'react'
 import Spinner from './Spinner'
 
-const Button = (props: any) => {
+const SimpleButton = (props: any) => {
     // console.log("props.type", props.type);
     return (
         <div className="modal-buttons">
             {!props.loading ? <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md ${!props?.isValid ? "bg-blue-200" : ""}`}
-                type={props?.type}
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md`}
                 onClick={props.onClick}
-                disabled={!props?.isValid}
+
             >
                 {props.title}
             </button> : <button
@@ -21,4 +20,4 @@ const Button = (props: any) => {
     )
 }
 
-export default Button
+export default SimpleButton

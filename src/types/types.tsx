@@ -10,7 +10,20 @@ export type loginUserType = {
     email: string;
     password: string;
 }
-
+export type productItemType = {
+    name: string,
+    category: string,
+    description: string,
+    price: number,
+    color: string,
+    size: number,
+    image: string,
+    // images: Yup.array().of(Yup.string().url('Invalid image URL')).required('Product images are required'),
+    stock: string,
+    userId: string,
+    ratings?: []
+    id: string,
+}
 export type productType = {
     name: string,
     category: string,

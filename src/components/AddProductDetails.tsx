@@ -14,7 +14,7 @@ const ProductForm = () => {
     const { checkUserLogin, loader, setLoader, } = useDashboard();
     useEffect(() => {
         checkUserLogin()
-    })
+    }, [])
     // const options = [
     //     { value: 'clothes', label: 'Clothes' },
     //     { value: 'shoes', label: 'Shoes' },
