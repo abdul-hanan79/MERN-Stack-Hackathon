@@ -11,6 +11,7 @@ const useVerifyUserLogined = () => {
         if (isUserLoggedIn) {
             console.log("user is logined verify user logiend");
             doFecthProducts()
+            
         }
         else {
             router.push('/login')

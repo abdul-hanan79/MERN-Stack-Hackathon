@@ -8,11 +8,13 @@ import RatingForm from './RatingForm'
 import SimpleButton from './ui/SimpleButton'
 import { useUserLogined } from '@/customHooks/utils/userLogined'
 import useRating from '@/customHooks/useRating'
+import useCart from '@/customHooks/useCart'
 // import from 'next/dynamic'
 const ProductFullDetails = (props: any) => {
     const { allProducts } = useProducts()
     const { loginUserDetails } = useUserLogined()
     const { doDeleteRating } = useRating()
+    const { doAddToCart } = useCart()
     console.log("all products in product full details ", allProducts);
     const product = allProducts?.filter((item: productItemType) => item.id == props.id)
     console.log("single product", product);
@@ -26,6 +28,9 @@ const ProductFullDetails = (props: any) => {
                         <div className="flex flex-col md:flex-row">
                             <div className="md:w-1/2">
                                 <Image src={item.image} alt="image" height={250} width={250} />
+                                <SimpleButton title="Add To Cart" onClick={() => {
+                                    doAddToCart(item)
+                                }} />
                             </div>
                             <div className="md:w-1/2 p-4">
                                 <h1 className="mt-2 mb-2 font-bold lg:text-7xl md:text-2xl">

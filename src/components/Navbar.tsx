@@ -14,13 +14,16 @@ const Navbar = () => {
     console.log("user logined in navbar", isUserLoggedIn);
 
     return (
-        <nav className="bg-blue-500 p-4 flex items-center justify-between fixed top-0 left-0 right-0">
+        <nav className="bg-blue-500 p-4 flex items-center justify-between ">
             <div className='flex gap-2'>
                 <Link href="/">
                     <p className="text-white text-xl font-bold hover:text-blue-200">eCommerce</p>
                 </Link>
                 <Link href="/product">
                     <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">All Products</p>
+                </Link>
+                <Link href="/cart">
+                    <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">Cart</p>
                 </Link>
             </div>
             <div className="hidden md:flex space-x-4">
