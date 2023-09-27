@@ -27,7 +27,7 @@ const ProductDetailCard = () => {
             </div>
             {loader ? <Spinner /> : <div className="container mx-auto">
                 <div className="flex flex-wrap -mx-4">
-                    {allProducts.map((item: productItemType, index: number) => (
+                    {allProducts?.map((item: productItemType, index: number) => (
                         <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
                             <Link href={`/product/${item.id}`}>
                                 <div className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">

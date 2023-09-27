@@ -42,7 +42,7 @@ model Product {
 model Ratings {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   rating    Int
-  reviews   String
+  review    String
   userId    String   @db.ObjectId
   product   Product? @relation(fields: [productId], references: [id])
   productId String?  @db.ObjectId

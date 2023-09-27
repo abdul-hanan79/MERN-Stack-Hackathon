@@ -12,19 +12,9 @@ import { useSelector } from 'react-redux';
 const Navbar = () => {
     const { isUserLoggedIn, userRole } = useUserLogined();
     console.log("user logined in navbar", isUserLoggedIn);
-    // const { checkUserLogin } = useDashboard();
-    // useEffect(() => {
-    //     if (!auth.isLoggedIn && auth.currentUserRequestLoader) {
-    //         router.push("/login");
-    //     }
-    // }, [auth])
 
-
-    // const loginUser = useSelector((state: any) =>)
-    // const { goToLogin } = useLogin()
-    // const { goToSignup } = useSignup()
     return (
-        <nav className="bg-blue-500 p-4 flex items-center justify-between">
+        <nav className="bg-blue-500 p-4 flex items-center justify-between fixed top-0 left-0 right-0">
             <div className='flex gap-2'>
                 <Link href="/">
                     <p className="text-white text-xl font-bold hover:text-blue-200">eCommerce</p>

@@ -51,6 +51,13 @@ const doLogin = async (req, res) => {
             where: {
                 email: email,
             },
+            include: {
+                Cart: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
         });
         console.log("user in login ", user)
         if (!user) {
@@ -91,11 +98,13 @@ const doLogin = async (req, res) => {
             token: token,
             name: user.name,
             email: user.email,
+            cartId: user.Cart[0].id,
             role: user.role
         }
         return res.status(200).json(response);
     }
     catch (error) {
+        console.log("error", error.message);
         const response = {
             error,
             message: 'unsuccessfull'

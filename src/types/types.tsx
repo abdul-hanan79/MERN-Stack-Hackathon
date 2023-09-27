@@ -21,8 +21,14 @@ export type productItemType = {
     // images: Yup.array().of(Yup.string().url('Invalid image URL')).required('Product images are required'),
     stock: string,
     userId: string,
-    ratings?: []
+    ratings?: [],
     id: string,
+}
+export type addToCartItemType = {
+    cartId: string,
+    productId: string,
+    quantity: number,
+
 }
 export type productType = {
     name: string,

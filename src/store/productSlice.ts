@@ -1,20 +1,50 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
-
+// import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
 import axios from "axios";
 import { productItemType, productType } from "@/types/types";
-import build from "next/dist/build";
-import { resourceUsage } from "process";
-import { stat } from "fs";
+
 
 const axiosWithCookies = axios.create({
     withCredentials: true,
 });
+export const submitRating = createAsyncThunk('/product/submitRating', async (values: any) => {
+    try {
+        console.log("values in submit rating", values);
+        const comment = values;
+        const result = await axios.post("http://localhost:8080/ratings/createRating", { comment })
+        console.log("result data", result.data);
+        const uploadedRating = result.data;
+        return uploadedRating;
+    } catch (error: any) {
+        console.log("error ", error.message);
+    }
+})
+export const deleteRating = createAsyncThunk('product/deleteRating', async (itemDetails: any) => {
+    try {
+        const id = itemDetails.id
+        const result = await axios.delete(`http://localhost:8080/ratings/deleteRating?id=${id}`)
+        console.log("result", result.data);
+        const deletedRatingDetail = {
+            id: itemDetails.id,
+            productId: itemDetails.productId,
+            message: result.data.message,
+        }
+        return deletedRatingDetail;
+    }
+    catch (error: any) {
+        console.log("error ", error.message);
+    }
+})
+
 export const fetchProducts = createAsyncThunk(('product/fetchProducts'), async () => {
-    const result = await axios.get("http://localhost:8080/products/getProducts")
-    console.log("all products", result)
-    const allProducts = result.data;
-    return allProducts
+    try {
+        const result = await axios.get("http://localhost:8080/products/getProducts")
+        console.log("all products", result)
+        const allProducts = result.data;
+        return allProducts
+    } catch (error: any) {
+        console.log("error ", error.message);
+    }
 })
 export const submitProduct = createAsyncThunk(('product/submitProduct'), async (productDetails: productType) => {
     try {
@@ -85,7 +115,7 @@ const productSlice = createSlice({
                 if (action.payload.message == "successfull") {
                     let deletedProduct = action.payload.productId
                     let products: productItemType[] = state.products;
-                    let filteredProducts = products.filter((product) => product.id !== deletedProduct);
+                    let filteredProducts = products.filter((product: any) => product.id !== deletedProduct);
                     let newState = {
                         ...state,
                         filteredProducts,
@@ -93,6 +123,60 @@ const productSlice = createSlice({
                     return newState
                 }
                 return state;
+            }),
+            builder.addCase(submitRating.fulfilled, (state, action) => {
+                console.log("action payload", action.payload);
+                if (action.payload.message == "successfull") {
+                    let comment = action.payload.uploadRating
+                    console.log("comment", comment);
+                    let products = state.products;
+                    let updatedProducts = products.map((product: productItemType) => {
+                        console.log('====================================');
+                        console.log(comment.productId, product.id);
+                        console.log('====================================');
+                        if (comment.productId === product.id) {
+                            return {
+                                ...product,
+                                ratings: [...product?.ratings, comment]
+                            }
+                        }
+                        else {
+                            return product;
+                        }
+                    });
+                    let newState: any = {
+                        ...state,
+                        products: updatedProducts,
+                    }
+                    return newState
+                }
+                return state
+            }),
+            builder.addCase(deleteRating.fulfilled, (state, action: any) => {
+                console.log("action payload", action.payload);
+                if (action.payload.message == "successfull") {
+                    let deletedRatingId = action.payload.id
+                    let products = state.products;
+                    let filteredProducts = products.map((product: productItemType) => {
+                        if (product.id == action.payload.productId) {
+                            return {
+                                ...product,
+                                ratings: product.ratings?.filter((rating: any) => rating.id !== deletedRatingId)
+                            }
+                        }
+                        else {
+                            return product
+                        }
+
+                    })
+                    console.log("fiteredproducts", filteredProducts);
+                    let newState: any = {
+                        ...state,
+                        products: filteredProducts,
+                    }
+                    return newState
+                }
+                return state
             })
     }
 
@@ -334,9 +418,6 @@ const todoSlice = createSlice({
             };
             return newState;
         });
-
-
-
     },
 });
 

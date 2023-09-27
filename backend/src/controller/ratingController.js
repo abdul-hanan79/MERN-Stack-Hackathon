@@ -5,11 +5,12 @@ const doCreateRating = async (req, res) => {
     try {
         console.log("req.body", req.body);
         const userRating = {
-            rating: req.body.rating,
-            reviews: req.body.reviews,
-            userId: req.body.userId,
-            productId: req.body.productId,
+            rating: req.body.comment.rating,
+            review: req.body.comment.review,
+            userId: req.body.comment.userId,
+            productId: req.body.comment.productId,
         }
+        console.log("user rating", typeof(userRating.rating));
         const uploadRating = await prisma.Ratings.create({
             data: userRating,
         })
