@@ -85,26 +85,25 @@ const doDeleteCartItem = async (req, res) => {
 }
 const doGetCartItems = async (req, res) => {
     try {
-        const userId = req.body.userId;
-        const userWithCart = await prisma.User.findUnique({
+        const userId = req.query.id;
+        console.log("user id", userId);
+        const cart = await prisma.Cart.findMany({
             where: {
-                id: userId
+                userId: userId
             },
             include: {
-                Cart: {
-                    include: {
-                        items: true
-                    }
-                }
+                items: true
             }
         })
+        console.log("user with cart", cart);
         const response = {
-            result: userWithCart,
+            result: cart,
             message: "successfull",
         }
         res.json(response)
     }
     catch (error) {
+        console.log("error", error.message);
         const response = {
             error,
             message: "unsuccessful"

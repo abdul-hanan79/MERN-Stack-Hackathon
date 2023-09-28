@@ -23,8 +23,9 @@ const Cart = () => {
     const { checkUserLogin } = useVerifyUserLogined()
     useEffect(() => {
         checkUserLogin()
+        // doFetchCartItems()
     }, [])
-    const { cart } = useCart()
+    const { cartItems } = useCart()
 
     // const handleRemoveItem = (item:any) => {
     //     setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== item.id));
@@ -52,7 +53,7 @@ const Cart = () => {
                         </div>
                         <div className="card-body">
                             <ul className="list-group">
-                                {cart.map((item: any, index: number) => (
+                                {cartItems?.map((item: any, index: number) => (
                                     <li
                                         key={index}
                                         className="list-group-item d-flex justify-content-between align-items-center"
