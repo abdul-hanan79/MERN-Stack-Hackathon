@@ -25,10 +25,11 @@ export type productItemType = {
     id: string,
 }
 export type addToCartItemType = {
+    id?: string,
     cartId: string,
     productId: string,
     quantity: number,
-
+    price: number,
 }
 export type productType = {
     name: string,

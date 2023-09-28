@@ -7,7 +7,8 @@ const doCreateCartItem = async (req, res) => {
         const cartItem = {
             cartId: req.body.cartId,
             productId: req.body.productId,
-            quantity: req.body.quantity
+            quantity: req.body.quantity,
+            price: req.body.price,
         }
         const uploadCartItem = await prisma.CartItems.create({
             data: cartItem
@@ -20,6 +21,7 @@ const doCreateCartItem = async (req, res) => {
         res.json(response)
     }
     catch (error) {
+        console.log("error in create item", error.message);
         const response = {
             error,
             message: "unsuccessful"
@@ -87,7 +89,7 @@ const doGetCartItems = async (req, res) => {
     try {
         const userId = req.query.id;
         console.log("user id", userId);
-        const cart = await prisma.Cart.findMany({
+        const cart = await prisma.Cart.findFirst({
             where: {
                 userId: userId
             },
@@ -114,8 +116,47 @@ const doGetCartItems = async (req, res) => {
         await prisma.$disconnect()
     }
 }
+const doUpdateCartitem = async (req, res) => {
+    try {
+        const updateCartitemDetails = {
+            cartId: req.body.cartId,
+            productId: req.body.productId,
+            price: req.body.price,
+            quantity: req.body.quantity
+        }
+        console.log("updatedCart Items", updateCartitemDetails, "id", req.body.id);
+        const updatedCartItem = await prisma.CartItems.update({
+            where: {
+                id: req.body.id,
+            },
+            data: updateCartitemDetails
+        })
+        // const updatedCartItem = await prisma.cartItems.findUnique({
+        //     where: {
+        //         id: req.body.id
+        //     }
+        // })
+        console.log("found", updatedCartItem);
+        const response = {
+            result: updatedCartItem,
+            message: "successfull"
+        }
+        res.json(response)
+    } catch (error) {
+        console.log("error in doUpdateCartitem", error.message);
+        const response = {
+            error,
+            message: "unsuccessful"
+        }
+        res.json(response)
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
 module.exports = {
     doCreateCartItem,
     doDeleteCartItem,
-    doGetCartItems
+    doGetCartItems,
+    doUpdateCartitem
 }

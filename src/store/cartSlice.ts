@@ -24,6 +24,19 @@ export const fetchCartItems = createAsyncThunk('/cart/fetchCartItems', async (us
         console.log("error in fetch cart items", error.message);
     }
 })
+export const deleteCartItem = createAsyncThunk('/cart/deleteCartItem', async (cartItemId:string | undefined) => {
+    try {
+        const result = await axios.delete(`http://localhost:8080/cartItem/deleteCartItem?id=${cartItemId}`)
+        console.log("result ", result.data);
+        const deletedCartItem = {
+            message: result.data.message,
+            cartItemId,
+        }
+        return deletedCartItem
+    } catch (error: any) {
+        console.log("error in detelte cart item", error.message);
+    }
+})
 const initialState = {
     cartItems: [],
     cartDetail: {},
@@ -52,12 +65,12 @@ export const cartSlice = createSlice({
         }),
             builder.addCase(fetchCartItems.fulfilled, (state, action) => {
                 console.log("action payload in fetchCartItems", action.payload);
-                console.log("cart items",action.payload.result.items,);
+                console.log("cart items", action.payload.result.items,);
                 if (action.payload.message == "successfull") {
                     let newState = {
                         ...state,
-                        cartDetail: action.payload.result[0],
-                        cartItems: action.payload.result[0].items,
+                        cartDetail: action.payload.result,
+                        cartItems: action.payload.result.items,
                     }
                     console.log("new state", newState);
                     return newState;
@@ -65,7 +78,21 @@ export const cartSlice = createSlice({
                 else {
                     return state;
                 }
+            }),
+            builder.addCase(deleteCartItem.fulfilled, (state, action) => {
+                console.log("action payload", action.payload);
+                if (action.payload?.message == "successfull") {
+                    let allCartItems = state.cartItems
+                    let filteredCartitems = allCartItems.filter((item: any) => item.id !== action.payload?.cartItemId)
+                    let newState = {
+                        ...state,
+                        cartItems: filteredCartitems
+                    }
+                    return newState
+                }
+                return state
             })
+
     }
 })
 // export const { addToCart, getCartTotal, removeItem, increaseQuantity, decreaseQuantity } = cartSlice.actions

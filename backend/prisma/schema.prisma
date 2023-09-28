@@ -62,6 +62,7 @@ model CartItems {
   Cart      Cart?   @relation(fields: [cartId], references: [id])
   cartId    String? @db.ObjectId
   productId String  @db.ObjectId
+  price     Float
   quantity  Int
 }
 
