@@ -11,12 +11,12 @@ import useRating from '@/customHooks/useRating'
 import useCart from '@/customHooks/useCart'
 // import from 'next/dynamic'
 const ProductFullDetails = (props: any) => {
-    const { allProducts } = useProducts()
+    const { products } = useProducts()
     const { loginUserDetails } = useUserLogined()
     const { doDeleteRating } = useRating()
     const { doAddToCart } = useCart()
-    console.log("all products in product full details ", allProducts);
-    const product = allProducts?.filter((item: productItemType) => item.id == props.id)
+    console.log("all products in product full details ", products);
+    const product = products?.filter((item: productItemType) => item.id == props.id)
     console.log("single product", product);
     console.log("product id", product.id);
     return (

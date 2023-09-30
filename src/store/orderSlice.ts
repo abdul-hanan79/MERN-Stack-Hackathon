@@ -1,15 +1,15 @@
-import { addToCartItemType } from "@/types/types";
+import { addToCartItemType, orderType } from "@/types/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // import ProductData from '../ProductData'
-export const addToCart = createAsyncThunk('/cart/addToCart', async (item: addToCartItemType) => {
+export const createOrder = createAsyncThunk('/order/createOrder', async (orderDetails: orderType) => {
     try {
-        const addToCartItem = item;
-        const result = await axios.post("http://localhost:8080/cartItem/createCartItem", addToCartItem)
+        const order = orderDetails;
+        const result = await axios.post("http://localhost:8080/order/createOrder", { order })
         console.log("result", result.data);
-        const uploadedCartItem = result.data;
-        console.log("upload cart item", uploadedCartItem);
-        return uploadedCartItem
+        const uploadedOrder = result.data;
+        console.log("upload cart item", uploadedOrder);
+        return uploadedOrder
     } catch (error: any) {
         console.log("error", error.message);
     }
@@ -48,26 +48,26 @@ export const updateCartItem = createAsyncThunk('/cart/updateCartItem', async (it
     return updatedCartItemDetails
 })
 const initialState = {
-    cartItems: [],
-    cartDetail: {},
-    totalQuantity: 0,
-    totalPrice: 0,
+    // orderItems: [],
+    orderDetails: [],
+    // totalQuantity: 0,
+    // totalPrice: 0,
 }
 
-export const cartSlice = createSlice({
-    name: "cart",
+export const orderSlice = createSlice({
+    name: "order",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(addToCart.fulfilled, (state, action) => {
-            
+        builder.addCase(createOrder.fulfilled, (state, action) => {
             console.log("action payload", action.payload);
             if (action.payload.message == "successfull") {
-                const cartItem = action.payload.result;
+                const orderItem = action.payload.result;
                 let newState: any = {
                     ...state,
-                    cartItems: [...state.cartItems, cartItem]
+                    orderDetails: [...state.orderDetails, orderItem]
                 }
+                console.log("new state", newState);
                 return newState
             }
             else {
@@ -89,40 +89,40 @@ export const cartSlice = createSlice({
                 else {
                     return state;
                 }
-            }),
-            builder.addCase(deleteCartItem.fulfilled, (state, action) => {
-                console.log("action payload", action.payload);
-                if (action.payload?.message == "successfull") {
-                    let allCartItems = state.cartItems
-                    let filteredCartitems = allCartItems.filter((item: any) => item.id !== action.payload?.cartItemId)
-                    let newState = {
-                        ...state,
-                        cartItems: filteredCartitems
-                    }
-                    return newState
-                }
-                return state
             })
-        builder.addCase(updateCartItem.fulfilled, (state, action) => {
-            console.log("action is payload");
-            if (action.payload.message == "successfull") {
-                let updatedCartItem = action.payload.updatedItem
-                let allCartItems = state.cartItems;
-                let updatedCartItems = allCartItems.map((item: any) =>
-                    item.id === updatedCartItem.id ? { ...item, quantity: updatedCartItem.quantity } : item
-                )
-                console.log("updatedCartItem", updatedCartItems);
-                let newState: any = {
-                    ...state,
-                    cartItems: updatedCartItems
-                }
-                console.log("updaetd state is ", newState);
-                return newState
-            }
-            return state
-        })
+        //     builder.addCase(deleteCartItem.fulfilled, (state, action) => {
+        //         console.log("action payload", action.payload);
+        //         if (action.payload?.message == "successfull") {
+        //             let allCartItems = state.cartItems
+        //             let filteredCartitems = allCartItems.filter((item: any) => item.id !== action.payload?.cartItemId)
+        //             let newState = {
+        //                 ...state,
+        //                 cartItems: filteredCartitems
+        //             }
+        //             return newState
+        //         }
+        //         return state
+        //     })
+        // builder.addCase(updateCartItem.fulfilled, (state, action) => {
+        //     console.log("action is payload");
+        //     if (action.payload.message == "successfull") {
+        //         let updatedCartItem = action.payload.updatedItem
+        //         let allCartItems = state.cartItems;
+        //         let updatedCartItems = allCartItems.map((item: any) =>
+        //             item.id === updatedCartItem.id ? { ...item, quantity: updatedCartItem.quantity } : item
+        //         )
+        //         console.log("updatedCartItem", updatedCartItems);
+        //         let newState: any = {
+        //             ...state,
+        //             cartItems: updatedCartItems
+        //         }
+        //         console.log("updaetd state is ", newState);
+        //         return newState
+        //     }
+        //     return state
+        // })
 
     }
 })
 // export const { addToCart, getCartTotal, removeItem, increaseQuantity, decreaseQuantity } = cartSlice.actions
-export default cartSlice.reducer
+export default orderSlice.reducer

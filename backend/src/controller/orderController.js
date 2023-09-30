@@ -3,7 +3,7 @@ const { clearCart } = require('../utils/clearCart');
 const prisma = new PrismaClient();
 const doCreateOrder = async (req, res) => {
     try {
-        console.log("order", req.body.order);
+        console.log("orderItems", req.body.order);
         const userId = req.body.order.userId
         const orderItems = req.body.order.items.map((item) => {
             const orderItemsDetails = {

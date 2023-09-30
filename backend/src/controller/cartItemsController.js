@@ -117,6 +117,7 @@ const doGetCartItems = async (req, res) => {
     }
 }
 const doUpdateCartitem = async (req, res) => {
+    // console.log("req.headers",req.headers);
     try {
         const updateCartitemDetails = {
             cartId: req.body.cartId,

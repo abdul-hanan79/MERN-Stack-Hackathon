@@ -50,3 +50,15 @@ export type productType = {
     //     })
     // ),
 }
+export type orderType = {
+    userId: string,
+    totalPrice: number,
+    status: string,
+    shippingAddress: string,
+    items: [
+        {
+            productId: string,
+            quantity: number,
+        }
+    ]
+}

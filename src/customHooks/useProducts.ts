@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { deleteProduct, fetchProducts, submitProduct } from '@/store/productSlice';
 import { productItemType, productType } from '@/types/types';
 import { useUserLogined } from '@/customHooks/utils/userLogined';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const useProducts = () => {
@@ -16,6 +16,11 @@ const useProducts = () => {
     const router = useRouter();
     const { loginUserDetails } = useUserLogined()
     console.log("user id is", loginUserDetails.id);
+    const [products, setProducts] = useState(allProducts)
+    console.log("products",products);
+    useEffect(() => {
+        setProducts(allProducts)
+    }, [allProducts])
     const uploadProductDetails = async (values: productType) => {
         try {
             const productDetails: productType = {
@@ -69,7 +74,7 @@ const useProducts = () => {
         uploadProductDetails,
         doFecthProducts,
         doDeleteProduct,
-        allProducts,
+        products,
         loader,
     }
 }
