@@ -4,7 +4,7 @@ import { addToCartItemType, orderType } from '@/types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
-import { createOrder, fetchCartItems } from '@/store/orderSlice';
+import { createOrder, deleteOrder, fetchOrder } from '@/store/orderSlice';
 import { useState, useEffect } from 'react'
 import useCart from './useCart';
 const useOrder = () => {
@@ -44,28 +44,22 @@ const useOrder = () => {
             console.log("error in create order", error.message);
         }
     }
-    const doDeleteOrder = async () => {
+    const doDeleteOrder = async (itemId: any) => {
         try {
-
+            const action = dispatch(deleteOrder(itemId))
+            console.log("action in delte order", action);
         }
         catch (error: any) {
             console.log("error in delete order", error.message);
         }
     }
+
     const doFetchOrders = async () => {
-        try {
-
-        }
-        catch (error: any) {
-            console.log("error in delete order", error.message);
-        }
-    }
-    const doFetchOrder = async () => {
         try {
             const userId = loginUserDetails.id
             console.log("user id in do fetch order");
-            // const action = await dispatch(fetchOrder(userId))
-            // console.log("action", action);
+            const action = await dispatch(fetchOrder(userId))
+            console.log("action", action);
         } catch (error) {
 
         }
@@ -74,7 +68,7 @@ const useOrder = () => {
         doCreateOrder,
         order,
         doDeleteOrder,
-        doFetchOrder,
+        doFetchOrders,
     }
 }
 

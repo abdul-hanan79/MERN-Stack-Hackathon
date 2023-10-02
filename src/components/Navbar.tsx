@@ -22,6 +22,9 @@ const Navbar = () => {
                 <Link href="/product">
                     <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">All Products</p>
                 </Link>
+                <Link href="/order">
+                    <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">My Order</p>
+                </Link>
                 <Link href="/cart">
                     <p className="text-blue text-xl font-bold hover:text-white  hover:shadow-lg">Cart</p>
                 </Link>

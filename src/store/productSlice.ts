@@ -73,16 +73,30 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
         console.log("error in submitProduct", e);
     }
 })
-export const deleteProduct = createAsyncThunk('/product/deleteProduct', async (productId) => {
+export const deleteProduct = createAsyncThunk('/product/deleteProduct', async (productId: string) => {
 
     console.log("productId", productId);
     const result = await axios.delete(`http://localhost:8080/products/deleteProduct?id=${productId}`)
     console.log("result", result.data);
-    const deltedProductDetail = {
+    const deletedProductDetail = {
         productId,
         message: result.data.message,
     }
-    return deltedProductDetail
+    return deletedProductDetail
+})
+export const updateProduct = createAsyncThunk('product/updateProduct', async (item: any) => {
+    try {
+        const updateProductDetails = item;
+        const result = await axios.put('http://localhost:8080/products/updateProduct', updateProductDetails)
+        console.log("result", result.data);
+        const updatedProductDetails = {
+            message: result.data.message,
+            result: result.data.result
+        }
+        return updatedProductDetails
+    } catch (error: any) {
+        console.log("error in udate product", error.message);
+    }
 })
 const productSlice = createSlice({
     name: "product",
@@ -116,10 +130,11 @@ const productSlice = createSlice({
                     let deletedProduct = action.payload.productId
                     let products: productItemType[] = state.products;
                     let filteredProducts = products.filter((product: any) => product.id !== deletedProduct);
-                    let newState = {
+                    let newState: any = {
                         ...state,
-                        filteredProducts,
+                        products: filteredProducts,
                     }
+                    console.log("new state in deleted product", newState);
                     return newState
                 }
                 return state;
@@ -177,6 +192,44 @@ const productSlice = createSlice({
                     return newState
                 }
                 return state
+            }),
+            builder.addCase(updateProduct.fulfilled, (state, action) => {
+                console.log("action payload in update product", action.payload);
+                if (action.payload?.message == "successfull") {
+                    let updatedProduct = action.payload?.result
+                    let allProducts = state.products;
+                    let filteredProducts = allProducts.map((item: any) => {
+                        if (item.id == updatedProduct.id) {
+                            const newItem = {
+                                ...item,
+                                name: updatedProduct.name,
+                                category: updatedProduct.category,
+                                description: updatedProduct.description,
+                                price: updatedProduct.price,
+                                color: updatedProduct.color,
+                                size: updatedProduct.size,
+                                image: updatedProduct.image,
+                                stock: updatedProduct.stock,
+                                userId: updatedProduct.userId,
+                                id: updatedProduct.id,
+                            }
+                            return newItem
+                        }
+                        else {
+                            return item
+                        }
+                    })
+                    console.log("updated filtered product");
+                    let newState: any = {
+                        ...state,
+                        products: filteredProducts
+                    }
+                    console.log("new state in update product", newState);
+                    return newState
+                }
+                else {
+                    return state
+                }
             })
     }
 

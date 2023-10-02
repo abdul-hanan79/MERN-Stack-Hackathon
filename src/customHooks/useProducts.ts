@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
 import { useRouter } from "next/navigation";
-import { deleteProduct, fetchProducts, submitProduct } from '@/store/productSlice';
+import { deleteProduct, fetchProducts, submitProduct, updateProduct } from '@/store/productSlice';
 import { productItemType, productType } from '@/types/types';
 import { useUserLogined } from '@/customHooks/utils/userLogined';
 import { useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ const useProducts = () => {
     const { loginUserDetails } = useUserLogined()
     console.log("user id is", loginUserDetails.id);
     const [products, setProducts] = useState(allProducts)
-    console.log("products",products);
+    console.log("products", products);
     useEffect(() => {
         setProducts(allProducts)
     }, [allProducts])
@@ -70,12 +70,43 @@ const useProducts = () => {
         finally {
         }
     }
+    const doUpdateProduct = async (values: any, product: productItemType[]) => {
+        console.log("values in do update product", values);
+        console.log("values in do item product", product);
+        try {
+            const updateProductDetails = {
+                id: product[0].id,
+                name: values.name,
+                description: values.description,
+                category: values.category,
+                price: values.price,
+                image: values.image,
+                color: values.color,
+                size: values.size,
+                stock: values.stock,
+                userId: product[0].userId
+            }
+            console.log("updated product details", updateProductDetails);
+            const action = await dispatch(updateProduct(updateProductDetails))
+            console.log("action in update product", action);
+            if (action.payload?.message == "successfull") {
+                console.log("item is uploaded");
+                router.push('/dashboard')
+            }
+        } catch (error: any) {
+            console.log("error in update product details", error.message);
+        }
+        finally {
+            setLoader(false)
+        }
+    }
     return {
         uploadProductDetails,
         doFecthProducts,
         doDeleteProduct,
         products,
         loader,
+        doUpdateProduct,
     }
 }
 

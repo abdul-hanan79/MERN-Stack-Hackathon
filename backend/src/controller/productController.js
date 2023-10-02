@@ -129,6 +129,7 @@ const doUpdateProduct = async (req, res) => {
         res.json(response)
     }
     catch (error) {
+        console.log("error in updating", error.message);
         const response = {
             error,
             message: "unsuccessful"

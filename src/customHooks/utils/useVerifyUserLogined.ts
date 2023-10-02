@@ -9,14 +9,14 @@ const useVerifyUserLogined = () => {
     const { isUserLoggedIn } = useUserLogined();
     const { doFecthProducts } = useProducts();
     const { doFetchCartItems } = useCart()
-    const { doFetchOrder } = useOrder()
+    const { doFetchOrders } = useOrder()
     const router = useRouter();
     const checkUserLogin = () => {
         if (isUserLoggedIn) {
             console.log("user is logined verify user logiend");
             doFecthProducts()
             doFetchCartItems()
-            doFetchOrder()
+            doFetchOrders()
         }
         else {
             router.push('/login')

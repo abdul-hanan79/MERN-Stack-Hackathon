@@ -1,27 +1,34 @@
 'use client'
 import useProducts from "@/customHooks/useProducts";
-import { ProductSchema } from "@/schemas/productSchema";
+import { ProductSchema, UpdateProductSchema } from "@/schemas/productSchema";
 import { useFormik, ErrorMessage, Field } from "formik";
 import InputBlock from "./InputBlock";
 import Button from "./ui/Button";
-import { useEffect, useState } from "react";
 import Image from 'next/image'
-// import Select from 'react-select';
 import useDashboard from "@/customHooks/useDashboard";
 import PreviewImage from "./PreviewImage";
-const ProductForm = () => {
-    // const [selectedImage, setSelectedImage] = useState<[] | null>(null)
+import { productItemType } from "@/types/types";
+const ProductForm = (props: any) => {
+    const { editable, productId } = props
+    const { products } = useProducts()
+    console.log("all products in product full details ", products);
+    const product = products?.filter((item: productItemType) => item.id == productId)
+    console.log("single product", product);
+    console.log("product id", product.id);
+    console.log("value of editable and product initial values", editable, product);
     const { checkUserLogin, loader, setLoader, } = useDashboard();
-    useEffect(() => {
-        checkUserLogin()
-    }, [])
-    // const options = [
-    //     { value: 'clothes', label: 'Clothes' },
-    //     { value: 'shoes', label: 'Shoes' },
-    //     { value: 'accessories', label: 'Accessories' },
-    //     // Add more options as needed
-    // ];
-    const { uploadProductDetails } = useProducts();
+    const { uploadProductDetails, doUpdateProduct } = useProducts();
+    const updateProductValues = {
+        name: product[0]?.name,
+        description: product[0]?.description,
+        price: product[0]?.price,
+        color: product[0]?.color,
+        size: product[0]?.size,
+        category: product[0]?.category,
+        image: product[0]?.image,
+        stock: product[0]?.stock,
+    }
+    console.log("updated product values", updateProductValues);
     const initialValues = {
         name: '',
         description: '',
@@ -36,18 +43,23 @@ const ProductForm = () => {
     };
     const { values, handleBlur, handleSubmit, handleChange, isValid, setFieldValue, errors, touched } =
         useFormik({
-            initialValues,
-            validationSchema: ProductSchema,
+            initialValues: !editable ? initialValues : updateProductValues,
+            validationSchema: !editable ? ProductSchema : UpdateProductSchema,
             validateOnChange: true,
             validateOnBlur: false,
             onSubmit: async (values: any, action) => {
                 console.log("values in add producte details", values);
                 setLoader(true)
-                await uploadProductDetails(values)
+                if (!editable) {
+                    await uploadProductDetails(values)
+                }
+                else {
+                    await doUpdateProduct(values, product)
+                }
+                console.log("after uploading");
                 action.resetForm()
                 setLoader(false)
             }
-
         })
     console.log("error", errors)
     console.log("isvalid", isValid)
@@ -58,13 +70,12 @@ const ProductForm = () => {
                 <div className="flex ">
                     <div className="mx-auto p-5 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            {values.image && <PreviewImage file={values.image} />}
+                            {!editable && values.image && <PreviewImage file={values.image} />}
 
-                            <InputBlock label="Product Image" type="file" name="image" id="image" onChange={(event: any) => {
+                            {!editable ? <InputBlock label="Product Image" type="file" name="image" id="image" onChange={(event: any) => {
                                 setFieldValue("image", event.target.files[0])
-                            }} onBlur={handleBlur} error={errors.image} touched={touched.image} className='appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline' />
+                            }} onBlur={handleBlur} error={errors.image} touched={touched.image} className='appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline' /> : <p>hello</p>}
                             <InputBlock label="Product Name" type="text" name="name" id="name" placeholder="Product Name" value={values.name} onChange={handleChange} onBlur={handleBlur} error={errors.name} touched={touched.name} />
-
                             <InputBlock label="Descriptions" type="text" name="description" id="description" className='rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700' placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} />
 
                             <div className="mb-4">

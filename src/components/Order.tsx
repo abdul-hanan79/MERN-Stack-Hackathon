@@ -1,21 +1,30 @@
 'use client'
 import useOrder from '@/customHooks/useOrder'
 import { orderType } from '@/types/types'
-import React from 'react'
+import React, { useEffect } from 'react'
+import SimpleButton from './ui/SimpleButton'
+import useVerifyUserLogined from '@/customHooks/utils/useVerifyUserLogined'
 
 const Order = () => {
     const { order, doDeleteOrder } = useOrder()
+    const { checkUserLogin } = useVerifyUserLogined()
+
+    useEffect(() => {
+        checkUserLogin()
+    }, [])
+
+    
     return (
         <div className="flex justify-center mt-8">
             <div className="w-2/3 p-4 border-2 border-blue-500 rounded-lg shadow-lg">
-                <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
-                {order.map((item: any, index: number) => (
+                <h1 className="text-2xl font-bold mb-4">Your Order {order.length}</h1>
+                {order?.map((item: any, index: number) => (
                     <div key={index} className="mb-4">
-                        <p className="text-lg">{item.status}</p>
+                        <p className="text-lg">{item?.status}</p>
                         <p className="text-gray-600">${item.totalPrice} </p>
                         <p className="text-gray-600">${item.shippingAddress}</p>
                         {
-                            item?.map((orderItem: any, index: any) => {
+                            item.items?.map((orderItem: any, index: any) => {
                                 return (
                                     <div key={index}>
                                         <p>productId:{orderItem.productId}</p>
@@ -33,7 +42,9 @@ const Order = () => {
                                     doDeleteCartItem(item)
                                 }} />
                             </div> */}
-
+                        <SimpleButton title="delete Order" onClick={() => {
+                            doDeleteOrder(item.id)
+                        }} />
                     </div>
                 ))}
             </div>

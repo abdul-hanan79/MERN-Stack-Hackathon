@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const useDashboard = () => {
-    const { isUserLoggedIn } = useUserLogined();
+    const { isUserLoggedIn, loginUserDetails } = useUserLogined();
     const [loader, setLoader] = useState(false)
+    const [showAddProductForm, setShowAddProductForm] = useState(false)
     console.log("user is logined", isUserLoggedIn);
     const router = useRouter();
     const checkUserLogin = () => {
@@ -15,9 +16,17 @@ const useDashboard = () => {
             router.push("/login")
         }
     }
+    const doHideUnhide = () => {
+        setShowAddProductForm(!showAddProductForm)
+    }
     return {
         checkUserLogin,
-        loader, setLoader,
+        loader,
+        setLoader,
+        showAddProductForm,
+        setShowAddProductForm,
+        loginUserDetails,
+        doHideUnhide
     }
 }
 export default useDashboard

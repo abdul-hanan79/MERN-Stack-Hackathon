@@ -79,27 +79,29 @@ const doDeleteOrder = async (req, res) => {
 }
 const doGetOrders = async (req, res) => {
     try {
-        const userId = req.body.userId;
-        const userWithCart = await prisma.User.findUnique({
+        const userId = req.query.id;
+
+        const userWithOrder = await prisma.User.findUnique({
             where: {
                 id: userId
             },
             include: {
-                Cart: {
+                Order: {
                     include: {
                         items: true
                     }
                 }
             }
-
         })
+        console.log("user with order", userWithOrder);
         const response = {
-            result: userWithCart,
+            result: userWithOrder,
             message: "successfull"
         }
         res.json(response)
     }
     catch (error) {
+        console.log("error", error.message);
         const response = {
             error,
             message: "unsuccessful"

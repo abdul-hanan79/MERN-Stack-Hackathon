@@ -1,4 +1,4 @@
-import { addToCartItemType, orderType } from "@/types/types";
+import { orderType } from "@/types/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // import ProductData from '../ProductData'
@@ -8,45 +8,45 @@ export const createOrder = createAsyncThunk('/order/createOrder', async (orderDe
         const result = await axios.post("http://localhost:8080/order/createOrder", { order })
         console.log("result", result.data);
         const uploadedOrder = result.data;
-        console.log("upload cart item", uploadedOrder);
+        console.log("upload order", uploadedOrder);
         return uploadedOrder
     } catch (error: any) {
         console.log("error", error.message);
     }
 })
-export const fetchCartItems = createAsyncThunk('/cart/fetchCartItems', async (userId: string) => {
+export const fetchOrder = createAsyncThunk('/order/fetchOrder', async (userId: string) => {
     try {
-        const result = await axios.get(`http://localhost:8080/cartItem/getCartItems?id=${userId}`);
-        console.log("result in fetchCartItems", result.data);
-        const cartItems = result.data;
-        return cartItems;
+        const result = await axios.get(`http://localhost:8080/order/getOrders?id=${userId}`);
+        console.log("result in fetchOrder", result.data);
+        const fetchedOrder = result.data;
+        return fetchedOrder;
     } catch (error: any) {
         console.log("error in fetch cart items", error.message);
     }
 })
-export const deleteCartItem = createAsyncThunk('/cart/deleteCartItem', async (cartItemId: string | undefined) => {
+export const deleteOrder = createAsyncThunk('/order/deleteOrder', async (orderId: string | undefined) => {
     try {
-        const result = await axios.delete(`http://localhost:8080/cartItem/deleteCartItem?id=${cartItemId}`)
+        const result = await axios.delete(`http://localhost:8080/order/deleteOrder?id=${orderId}`)
         console.log("result ", result.data);
-        const deletedCartItem = {
+        const deletedOrder = {
             message: result.data.message,
-            cartItemId,
+            orderId,
         }
-        return deletedCartItem
+        return deletedOrder
     } catch (error: any) {
         console.log("error in detelte cart item", error.message);
     }
 })
-export const updateCartItem = createAsyncThunk('/cart/updateCartItem', async (item: addToCartItemType) => {
-    const updateItem = item;
-    const result = await axios.patch('http://localhost:8080/cartItem/updateCartItem', updateItem)
-    console.log("result", result.data);
-    const updatedCartItemDetails = {
-        message: result.data.message,
-        updatedItem: result.data.result
-    }
-    return updatedCartItemDetails
-})
+// export const updateCartItem = createAsyncThunk('/cart/updateCartItem', async (item: addToCartItemType) => {
+//     const updateItem = item;
+//     const result = await axios.patch('http://localhost:8080/cartItem/updateCartItem', updateItem)
+//     console.log("result", result.data);
+//     const updatedCartItemDetails = {
+//         message: result.data.message,
+//         updatedItem: result.data.result
+//     }
+//     return updatedCartItemDetails
+// })
 const initialState = {
     // orderItems: [],
     orderDetails: [],
@@ -67,21 +67,21 @@ export const orderSlice = createSlice({
                     ...state,
                     orderDetails: [...state.orderDetails, orderItem]
                 }
-                console.log("new state", newState);
+                console.log("new state in create order", newState);
                 return newState
             }
             else {
                 return state
             }
         }),
-            builder.addCase(fetchCartItems.fulfilled, (state, action) => {
-                console.log("action payload in fetchCartItems", action.payload);
-                console.log("cart items", action.payload.result.items,);
+            builder.addCase(fetchOrder.fulfilled, (state, action) => {
+                console.log("action payload in fetch order", action.payload);
+                console.log("order items", action.payload.result.Order,);
                 if (action.payload.message == "successfull") {
                     let newState = {
                         ...state,
-                        cartDetail: action.payload.result,
-                        cartItems: action.payload.result.items,
+                        // cartDetail: action.payload.result,
+                        orderDetails: action.payload.result.Order,
                     }
                     console.log("new state", newState);
                     return newState;
@@ -90,19 +90,20 @@ export const orderSlice = createSlice({
                     return state;
                 }
             })
-        //     builder.addCase(deleteCartItem.fulfilled, (state, action) => {
-        //         console.log("action payload", action.payload);
-        //         if (action.payload?.message == "successfull") {
-        //             let allCartItems = state.cartItems
-        //             let filteredCartitems = allCartItems.filter((item: any) => item.id !== action.payload?.cartItemId)
-        //             let newState = {
-        //                 ...state,
-        //                 cartItems: filteredCartitems
-        //             }
-        //             return newState
-        //         }
-        //         return state
-        //     })
+        builder.addCase(deleteOrder.fulfilled, (state, action) => {
+            console.log("action payload", action.payload);
+            if (action.payload?.message == "successfull") {
+                let allOrders = state.orderDetails
+                let filteredOrders = allOrders.filter((item: any) => item.id !== action.payload?.orderId)
+                let newState = {
+                    ...state,
+                    orderDetails: filteredOrders
+                }
+                console.log("new state after deleting order", newState);
+                return newState
+            }
+            return state
+        })
         // builder.addCase(updateCartItem.fulfilled, (state, action) => {
         //     console.log("action is payload");
         //     if (action.payload.message == "successfull") {
