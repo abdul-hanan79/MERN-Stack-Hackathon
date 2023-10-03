@@ -1,8 +1,12 @@
-const verifyUser = async (res, req) => {
-    console.log("reqest", req.cookie);
-    const token = req.cookie;
+const jwt = require('jsonwebtoken');
+const verifyUser = async (req, res, next) => {
     try {
-        const decode = await jwt.verify(token, process.env.JWT_SECRET)
+        console.log("reqest", req.cookies);
+        const token = req.cookies.token;
+        console.log("token is ", token);
+        console.log("secret key", process.env.JWT_SECRET);
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
+        console.log("decode", decode);
         if (decode) {
             next()
         }
@@ -13,6 +17,7 @@ const verifyUser = async (res, req) => {
             })
         }
     } catch (error) {
+        console.log("error in verify user", error.message);
         res.json({
             error: error.message
         })

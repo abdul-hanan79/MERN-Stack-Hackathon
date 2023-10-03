@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 
 const Navbar = () => {
     const { isUserLoggedIn, userRole } = useUserLogined();
+    const {doSignout}=useLogin()
     console.log("user logined in navbar", isUserLoggedIn);
 
     return (
@@ -54,7 +55,10 @@ const Navbar = () => {
 
                         <button
                             className="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-blue-50"
-                        >
+                        
+                         onClick={()=>{
+                            doSignout()
+                         }}>
                             Signout
                         </button>
                     </div>}

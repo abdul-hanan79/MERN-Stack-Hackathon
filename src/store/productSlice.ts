@@ -2,11 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
 import axios from "axios";
 import { productItemType, productType } from "@/types/types";
+import axiosWithCookies from "@/services/axios";
 
 
-const axiosWithCookies = axios.create({
-    withCredentials: true,
-});
+
 export const submitRating = createAsyncThunk('/product/submitRating', async (values: any) => {
     try {
         console.log("values in submit rating", values);
@@ -59,7 +58,7 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
         formData.append("stock", productDetails.stock.toString())
         formData.append("userId", productDetails.userId)
         console.log("form data", formData)
-        const product = await axiosWithCookies.post("http://localhost:8080/products/createProduct", formData, {
+        const product = await axios.post("http://localhost:8080/products/createProduct", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -76,7 +75,7 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
 export const deleteProduct = createAsyncThunk('/product/deleteProduct', async (productId: string) => {
 
     console.log("productId", productId);
-    const result = await axios.delete(`http://localhost:8080/products/deleteProduct?id=${productId}`)
+    const result = await axiosWithCookies.delete(`http://localhost:8080/products/deleteProduct?id=${productId}`)
     console.log("result", result.data);
     const deletedProductDetail = {
         productId,

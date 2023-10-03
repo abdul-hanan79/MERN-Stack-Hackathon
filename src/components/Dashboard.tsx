@@ -20,7 +20,7 @@ const Dashboard = () => {
     const { products, doDeleteProduct } = useProducts()
     console.log("products in dashboard", products);
     console.log("user id is ", loginUserDetails.id);
-    const filteredProductItems = products.filter((item: productItemType) => item.userId == loginUserDetails.id)
+    const filteredProductItems = products?.filter((item: productItemType) => item.userId == loginUserDetails.id)
     console.log("filtered products in dashboard", filteredProductItems);
     return (
         <div>

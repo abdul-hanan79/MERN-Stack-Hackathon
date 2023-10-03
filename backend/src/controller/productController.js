@@ -80,7 +80,7 @@ const doDeleteProduct = async (req, res) => {
     const productId = req.query.id;
     console.log("product id", productId)
     try {
-        const deletedProduct = await prisma.Product.delete({
+        await prisma.Product.delete({
             where: {
                 id: productId
             }

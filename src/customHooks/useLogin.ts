@@ -2,7 +2,7 @@ import { loginUserType, signupUserType } from "@/types/types"
 import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
-import { loginUser } from "@/store/authSlice"
+import { loginUser, signOut } from "@/store/authSlice"
 import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
 import { useUserLogined } from "@/customHooks/utils/userLogined"
@@ -43,12 +43,17 @@ export const useLogin = () => {
   const goToLogin = () => {
     // router.push('/login');
   };
+  const doSignout = async () => {
+    console.log("do signout");
+    await dispatch(signOut())
+  }
   return {
     doLogin,
     loginError,
     goToLogin,
     loader,
-    setLoader
+    setLoader,
+    doSignout
   }
 }
 

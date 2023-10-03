@@ -14,10 +14,13 @@ const ProductDetailCard = () => {
     const { loginUserDetails } = useUserLogined();
     const { checkUserLogin } = useVerifyUserLogined()
     const { products, loader, doDeleteProduct } = useProducts()
+    const [filteredProducts, setFilteredProducts] = useState(products);
     useEffect(() => {
         checkUserLogin()
     }, [])
-    const [filteredProducts, setFilteredProducts] = useState(products);
+    useEffect(()=>{
+        setFilteredProducts(products)
+    },[products])
 
     const handleFilter = (filteredProducts: any) => {
         console.log("this is working");

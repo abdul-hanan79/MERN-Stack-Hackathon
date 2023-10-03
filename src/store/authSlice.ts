@@ -22,6 +22,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentia
         const user = await axios.post("http://localhost:8080/user/loginUser", { email: userCredentials.email, password: userCredentials.password })
         console.log("logined user data is", user);
         const userData = user.data
+        localStorage.setItem("token", userData.token)
         console.log("UserData", userData);
         return userData
     }
@@ -45,18 +46,24 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentia
 // })
 
 
-
+const initialStateValues = {
+    user: {},
+    isLoggedIn: false,
+    userRole: null,
+    error: null,
+    signupUser: {},
+    currentUserRequestLoader: true,
+}
 const authSlice = createSlice({
     name: "auth",
-    initialState: {
-        user: {},
-        isLoggedIn: false,
-        userRole: null,
-        error: null,
-        signupUser: {},
-        currentUserRequestLoader: true,
+    initialState: initialStateValues,
+    reducers: {
+        signOut: (state, action) => {
+            let newState = state;
+            newState = initialStateValues;
+            return newState
+        }
     },
-    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(signupUser.fulfilled, (state, action) => {
             let newState: any = {
@@ -100,5 +107,6 @@ const authSlice = createSlice({
     }
 
 })
+export const { signOut } = authSlice.actions
 
 export default authSlice.reducer

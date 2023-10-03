@@ -38,7 +38,7 @@ app.use(cookieParser())
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/products', verifyUser, productRoutes)
+app.use('/products', productRoutes)
 app.use('/user', userRoutes)
 app.use('/ratings', ratingsRoutes)
 app.use('/cartItem', cartItemsRoutes)
