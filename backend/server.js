@@ -12,7 +12,8 @@ const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv');
 const cors = require("cors");
-const fileUpload = require('express-fileupload')
+const fileUpload = require('express-fileupload');
+const { verifyUser } = require('./src/utils/verifyUser');
 // const { default: verifyUser } = require('./src/utils/verifyUser');
 
 dotenv.config();
@@ -37,7 +38,7 @@ app.use(cookieParser())
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/products', productRoutes)
+app.use('/products', verifyUser, productRoutes)
 app.use('/user', userRoutes)
 app.use('/ratings', ratingsRoutes)
 app.use('/cartItem', cartItemsRoutes)

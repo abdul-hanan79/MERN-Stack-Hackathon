@@ -6,9 +6,11 @@ import { RootState } from '../store/store'
 import { signupUser } from "@/store/authSlice"
 import { useRouter } from "next/navigation";
 import App from "next/app"
+import { useState } from "react"
 
 export const useSignup = () => {
     const router = useRouter();
+    const [signupError, setSignupError] = useState(null)
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
 
     const doSignup = async (values: any) => {
@@ -26,7 +28,8 @@ export const useSignup = () => {
         }
         else {
             console.log("signupUserDetails", action.payload.message);
-            alert("user not signuped")
+            // alert("user not signuped")
+            setSignupError(action.payload.error)
         }
     }
     const goToSignup = () => {
@@ -34,7 +37,8 @@ export const useSignup = () => {
     };
     return {
         doSignup,
-        goToSignup
+        goToSignup,
+        signupError
     }
 }
 

@@ -6,9 +6,10 @@ import { signupUserType } from "@/types/types";
 import InputBlock from "./InputBlock";
 import Button from "./ui/Button";
 import Link from "next/link";
+import ErrorBox from "./ui/ErrorBox";
 
 const SignupForm = () => {
-    const { doSignup } = useSignup()
+    const { doSignup, signupError } = useSignup()
     const initialValues = {
         name: "",
         email: "",
@@ -30,7 +31,8 @@ const SignupForm = () => {
 
             },
         });
-    // console.log("error", errors);
+    console.log("error", errors);
+    console.log("is valid", isValid);
     return (
         <>
             <div className="container mx-auto">
@@ -53,8 +55,9 @@ const SignupForm = () => {
                                 value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur} error={errors.confirmPassword}
                                 touched={touched.confirmPassword}
                             />
-                            <Button type="submit" title="Signup" />
+                            <Button type="submit" title="Signup" isValid={isValid} />
                         </form>
+                        {signupError && <ErrorBox error={signupError} />}
                         <p className="sign-up text-sm text-slate-500">
                             Already have an account? <Link href="/login" className="text-blue-600 underline-offset-auto">Sign In now</Link>
                         </p>

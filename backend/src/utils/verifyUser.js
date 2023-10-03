@@ -1,18 +1,6 @@
-// const getJwtToken = require('../helper/getJwtToken')
-
-
-// const cookieToken = (user, res) => {
-/*
-
-cont decode=await jwt.verify(token,process.env.JWT_SECRET)
-*/
-//     const token = getJwtToken(user.id)
-//     const options =
-// }
-
 const verifyUser = async (res, req) => {
-    console.log("reqest", req.cookies);
-    const token = req.cookies.jwtToken;
+    console.log("reqest", req.cookie);
+    const token = req.cookie;
     try {
         const decode = await jwt.verify(token, process.env.JWT_SECRET)
         if (decode) {
@@ -20,7 +8,8 @@ const verifyUser = async (res, req) => {
         }
         else {
             res.json({
-                data: "error"
+                data: "user is not authorized",
+                message: "unsuccessfull"
             })
         }
     } catch (error) {
@@ -29,4 +18,4 @@ const verifyUser = async (res, req) => {
         })
     }
 }
-export default verifyUser
+module.exports = { verifyUser }

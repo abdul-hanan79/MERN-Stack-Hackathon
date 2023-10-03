@@ -9,6 +9,14 @@ const doSignup = async (req, res) => {
         console.log("singupUser", req.body)
         const salt = await bcrypt.genSalt(10)
         const passwordHash = await bcrypt.hash(req.body.user.password, salt)
+        const user = await prisma.user.findUnique({
+            where: {
+                email: req.body.user.email,
+            },
+        });
+        if (user) {
+            return res.json({ error: 'user already exist', message: 'unsuccessfull' });
+        }
         const newUser = await prisma.User.create({
             data: {
                 email: req.body.user.email,
@@ -73,25 +81,6 @@ const doLogin = async (req, res) => {
             expiresIn: '5 days',
         });
         console.log("token=>", token);
-        // this send cookies to client
-        // res.cookie("jwtoken", token, {
-        //     // expires: new Date(Date.now() + 50000), // Optionally set cookie expiration
-        //     httpOnly: true, // Make the cookie accessible only via HTTP (not JavaScript)
-        //     secure: false, // Allow cookies
-        // });
-        // res.cookie("token", token)
-        // res.cookie('token', "hello", {
-        //     maxAge: 3600000, // Cookie expires after 1 hour (in milliseconds)
-        //     httpOnly: true, // Cookie is accessible only via HTTP (not JavaScript)
-        //     secure: false, // Since it's local development, not over HTTPS
-        //     sameSite: 'strict', // Controls when cookies are sent (strict, lax, none)
-        //     path: '/', // Cookie is valid for all routes
-        //     domain: 'localhost', // Cookie is valid for localhost
-        // });
-
-        // console.log("verify cookies", res.getHeaders());
-        // res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Path=/; Expires=${new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)}; SameSite=Strict`);
-        // console.log("res.cookies.jwt",res.cookie.jwt);
         const response = {
             message: 'successfull',
             id: user.id,
@@ -101,6 +90,11 @@ const doLogin = async (req, res) => {
             cartId: user.Cart[0].id,
             role: user.role
         }
+        // res.cookie('myCookie', 'cookieValue', { maxAge: 900000, httpOnly: true });
+        res.cookie("jwtToken", token, {
+            expires: new Date(Date.now() + 2589200000),
+            httpOnly: true
+        })
         return res.status(200).json(response);
     }
     catch (error) {

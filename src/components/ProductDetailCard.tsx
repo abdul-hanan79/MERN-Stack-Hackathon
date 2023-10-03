@@ -3,12 +3,13 @@ import useProducts from '@/customHooks/useProducts'
 import useVerifyUserLogined from '@/customHooks/utils/useVerifyUserLogined'
 import { productItemType } from '@/types/types'
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Spinner from './ui/Spinner'
 import ReactIcons from 'react-icons';
 import Link from 'next/link'
 import { useUserLogined } from '@/customHooks/utils/userLogined'
 import SimpleButton from './ui/SimpleButton'
+import ProductFilter from './FilterProducts'
 const ProductDetailCard = () => {
     const { loginUserDetails } = useUserLogined();
     const { checkUserLogin } = useVerifyUserLogined()
@@ -16,8 +17,15 @@ const ProductDetailCard = () => {
     useEffect(() => {
         checkUserLogin()
     }, [])
+    const [filteredProducts, setFilteredProducts] = useState(products);
+
+    const handleFilter = (filteredProducts: any) => {
+        console.log("this is working");
+        setFilteredProducts(filteredProducts);
+    };
     return (
         <div>
+            <ProductFilter products={products} onFilter={handleFilter} />
             <div className="c-card block bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-xl rounded-lg overflow-hidden">
                 <div className="p-4 text-white">
                     <h1 className="mt-2 mb-2 font-bold">
@@ -27,7 +35,7 @@ const ProductDetailCard = () => {
             </div>
             {loader ? <Spinner /> : <div className="container mx-auto">
                 <div className="flex flex-wrap -mx-4">
-                    {products?.map((item: productItemType, index: number) => (
+                    {filteredProducts?.map((item: productItemType, index: number) => (
                         <div key={index} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
                             <Link href={`/product/${item.id}`}>
                                 <div className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
