@@ -1,6 +1,6 @@
 import { addToCartItemType, productItemType } from '@/types/types'
 // import React from 'react'
-import { useUserLogined } from './utils/userLogined'
+import { useUserLogined } from './utils/useUserLogined'
 import { RootState } from '../store/store'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,12 +43,18 @@ const useCart = () => {
             console.log("error in handle form submit", error.message);
         }
     };
-    const doFetchCartItems = async () => {
+    const doFetchCartItems = async (userId = loginUserDetails.id) => {
         try {
-            const userId = loginUserDetails.id
+            // const userId = loginUserDetails.id
             console.log("user id in do fetch cart items");
-            const action = await dispatch(fetchCartItems(userId))
-            console.log("action", action);
+            if (userId) {
+                const action = await dispatch(fetchCartItems(userId))
+                console.log("action", action);
+            }
+            else {
+                console.log("user Id is not defined");
+            }
+
         } catch (error: any) {
             console.log("error in fetch cart item", error.message);
         }

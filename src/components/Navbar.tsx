@@ -2,7 +2,7 @@
 import useDashboard from '@/customHooks/useDashboard';
 import { useLogin } from '@/customHooks/useLogin';
 import { useSignup } from '@/customHooks/useSignup';
-import { useUserLogined } from '@/customHooks/utils/userLogined';
+import { useUserLogined } from '@/customHooks/utils/useUserLogined';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

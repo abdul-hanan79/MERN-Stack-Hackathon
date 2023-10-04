@@ -2,7 +2,22 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { TEMPORARY_REDIRECT_STATUS } from "next/dist/shared/lib/constants";
 import axios from "axios";
 import { loginUserType, signupUserType } from "@/types/types";
+import axiosWithToken from "@/services/axios";
 
+export const fetchCurrentUser = createAsyncThunk('authUser/fetchCurrentUser', async () => {
+    try {
+        const value: any = {
+            fetchCurrentUser: true,
+        }
+        const result = await axiosWithToken.get('http://localhost:8080/user/fetchCurrentUser', { params: { value } })
+        console.log("result ", result.data);
+        const userData = result.data
+        console.log("UserData", userData);
+        return userData
+    } catch (error: any) {
+        console.log("error in fetchCurrentUser", error.message);
+    }
+})
 export const signupUser = createAsyncThunk('authUser/signupUser', async (user: signupUserType) => {
     try {
         console.log('signupUser /authi slice', user)
@@ -45,23 +60,26 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentia
 
 // })
 
-
-const initialStateValues = {
+const initialState = {
     user: {},
     isLoggedIn: false,
     userRole: null,
     error: null,
     signupUser: {},
     currentUserRequestLoader: true,
-}
+    userFetched:false,
+};
 const authSlice = createSlice({
     name: "auth",
-    initialState: initialStateValues,
+    initialState,
     reducers: {
-        signOut: (state, action) => {
-            let newState = state;
-            newState = initialStateValues;
-            return newState
+        signOut: (state) => {
+            // console.log("action payload in ==>signout", action.payload);
+            // let newState = state;
+            // console.log("state in ==>signput",newState);
+            // newState = action.payload.initialStateValues;
+            // console.log("new state is in ==>signout", newState);
+            return initialState
         }
     },
     extraReducers: (builder) => {
@@ -87,26 +105,27 @@ const authSlice = createSlice({
                 return newState;
             }
 
-            return {
-                ...state
-            };
+            return state
         });
-
-        // builder.addCase(signOutUser.fulfilled, (state, action) => {
-        //     console.log("signoutuser in extra reducer");
-        //     let newState = {
-        //         user: {},
-        //         isLoggedIn: false,
-        //         error: null,
-        //         signupUser: {},
-        //         currentUserRequestLoader: true,
-        //     }
-        //     console.log("the new state is", newState);
-        //     return newState
-        // })
+        builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
+            console.log("the user at fetch current user is", action.payload);
+            if (action.payload) {
+                let newState: any = {
+                    ...state,
+                    user: action.payload,
+                    userRole: action.payload.role,
+                    isLoggedIn: action.payload.message == "successfull" ? true : false,
+                    currentUserRequestLoader: false /*this is extra*/,
+                    userFetched:true
+                };
+                console.log("user after fetching user", newState);
+                return newState;
+            }
+            return state
+        });
     }
-
 })
+
 export const { signOut } = authSlice.actions
 
 export default authSlice.reducer

@@ -151,7 +151,7 @@ const productSlice = createSlice({
                         if (comment.productId === product.id) {
                             return {
                                 ...product,
-                                ratings: [...product?.ratings, comment]
+                                ratings: [...(product.ratings || []), comment]
                             }
                         }
                         else {

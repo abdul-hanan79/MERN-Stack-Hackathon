@@ -80,11 +80,11 @@ const doDeleteOrder = async (req, res) => {
 const doGetOrders = async (req, res) => {
     try {
         const userId = req.query.id;
-
+        console.log("user id ", userId);
         const userWithOrder = await prisma.User.findUnique({
             where: {
                 id: userId
-            },
+            },  
             include: {
                 Order: {
                     include: {

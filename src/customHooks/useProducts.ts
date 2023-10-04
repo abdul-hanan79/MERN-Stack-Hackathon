@@ -4,7 +4,7 @@ import { RootState } from '../store/store'
 import { useRouter } from "next/navigation";
 import { deleteProduct, fetchProducts, submitProduct, updateProduct } from '@/store/productSlice';
 import { productItemType, productType } from '@/types/types';
-import { useUserLogined } from '@/customHooks/utils/userLogined';
+import { useUserLogined } from '@/customHooks/utils/useUserLogined';
 import { useEffect, useState } from 'react';
 
 
@@ -87,9 +87,9 @@ const useProducts = () => {
                 userId: product[0].userId
             }
             console.log("updated product details", updateProductDetails);
-            const action = await dispatch(updateProduct(updateProductDetails))
+            const action:any = await dispatch(updateProduct(updateProductDetails))
             console.log("action in update product", action);
-            if (action.payload?.message == "successfull") {
+            if (action?.payload?.message == "successfull") {
                 console.log("item is uploaded");
                 router.push('/dashboard')
             }

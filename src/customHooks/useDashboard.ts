@@ -1,4 +1,4 @@
-import { useUserLogined } from "@/customHooks/utils/userLogined";
+import { useUserLogined } from "@/customHooks/utils/useUserLogined";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

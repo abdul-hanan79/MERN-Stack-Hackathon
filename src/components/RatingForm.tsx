@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import React from 'react'
 import InputBlock from './InputBlock'
 import Button from './ui/Button'
-import { useUserLogined } from '@/customHooks/utils/userLogined'
+import { useUserLogined } from '@/customHooks/utils/useUserLogined'
 import useRating from '@/customHooks/useRating'
 
 const RatingForm = (props: any) => {

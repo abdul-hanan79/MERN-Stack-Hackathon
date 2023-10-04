@@ -1,15 +1,39 @@
+// import axios, { InternalAxiosRequestConfig } from "axios";
+// // for local development only.
+// const prefix = 'localhost'
+// const instance = axios.create({
+//   baseURL: `http://${prefix}:5000`
+// })
+
+// instance.interceptors.request.use(
+//   async (config: InternalAxiosRequestConfig) => {
+//     const token = localStorage.getItem("token")
+//     config.headers.Authorization = token
+//     return Promise.resolve(config);
+//   },
+//   (err: any) => {
+//     return Promise.reject(err);
+//   }
+// );
+
+// export default instance;
+
+
 // axiosWithCookies.js
+
 import axios from 'axios';
-const axiosWithCookies = axios.create();
+const axiosWithToken = axios.create();
 // Add an interceptor to include cookies with each request
-axiosWithCookies.interceptors.request.use(
+axiosWithToken.interceptors.request.use(
   (config) => {
     // Retrieve cookies from your preferred storage (e.g., localStorage)
-    const cookies = localStorage.getItem('token');
-    console.log("cookies", cookies);
+    const token = localStorage.getItem('token');
+
+    console.log("token", token);
     // Set the 'Cookie' header with the retrieved cookies
-    if (cookies) {
-      config.headers['Cookie'] = cookies;
+    if (token) {
+      config.headers.Authorization = token
+      // config.headers['Cookie'] = cookies;
     }
     return config;
   },
@@ -18,7 +42,7 @@ axiosWithCookies.interceptors.request.use(
   }
 );
 
-export default axiosWithCookies;
+export default axiosWithToken;
 
 /** 
  * 

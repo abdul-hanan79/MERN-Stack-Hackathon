@@ -1,3 +1,4 @@
+import Benefits from '@/components/Benefits';
 import Spinner from '@/components/ui/Spinner';
 import Image from 'next/image'
 
@@ -20,68 +21,46 @@ export default function Home() {
       <div className="py-16 px-8">
         <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Benefit 1 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <div className="text-2xl mb-4">Quality Products</div>
-            <p className="text-gray-600">
-              We offer a wide range of high-quality fashion products from top brands.
-            </p>
-          </div>
-
-          {/* Benefit 2 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <div className="text-2xl mb-4">Fast Shipping</div>
-            <p className="text-gray-600">
-              Enjoy fast and reliable shipping for your orders. Get your fashion items delivered
-              quickly.
-            </p>
-          </div>
-
-          {/* Benefit 3 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <div className="text-2xl mb-4">Easy Returns</div>
-            <p className="text-gray-600">
-              Not satisfied with your purchase? No worries! We offer easy and hassle-free returns.
-            </p>
-          </div>
+          <Benefits title="Product Quality" description="We offer a wide range of high-quality fashion products from top brands." />
+          <Benefits title="Shipping Quality" description="We offer a wide range of high-quality fashion products from top brands." />
         </div>
-      </div>
 
-      {/* Featured Products Section */}
-      <div className="py-16 px-8">
-        <h2 className="text-3xl font-bold text-center mb-8">Featured Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Featured Product 1 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <img
-              src="https://via.placeholder.com/200"
-              alt="Product 1"
-              className="w-full h-40 mb-4 object-cover"
-            />
-            <div className="text-xl font-semibold mb-2">Product 1</div>
-            <div className="text-gray-600">$49.99</div>
-          </div>
+        {/* Featured Products Section */}
+        <div className="py-16 px-8">
+          <h2 className="text-3xl font-bold text-center mb-8">Featured Products</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Featured Product 1 */}
+            <div className="bg-white p-6 shadow-md rounded-lg">
+              <img
+                src="https://via.placeholder.com/200"
+                alt="Product 1"
+                className="w-full h-40 mb-4 object-cover"
+              />
+              <div className="text-xl font-semibold mb-2">Product 1</div>
+              <div className="text-gray-600">$49.99</div>
+            </div>
 
-          {/* Featured Product 2 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <img
-              src="https://via.placeholder.com/200"
-              alt="Product 2"
-              className="w-full h-40 mb-4 object-cover"
-            />
-            <div className="text-xl font-semibold mb-2">Product 2</div>
-            <div className="text-gray-600">$39.99</div>
-          </div>
+            {/* Featured Product 2 */}
+            <div className="bg-white p-6 shadow-md rounded-lg">
+              <img
+                src="https://via.placeholder.com/200"
+                alt="Product 2"
+                className="w-full h-40 mb-4 object-cover"
+              />
+              <div className="text-xl font-semibold mb-2">Product 2</div>
+              <div className="text-gray-600">$39.99</div>
+            </div>
 
-          {/* Featured Product 3 */}
-          <div className="bg-white p-6 shadow-md rounded-lg">
-            <img
-              src="https://via.placeholder.com/200"
-              alt="Product 3"
-              className="w-full h-40 mb-4 object-cover"
-            />
-            <div className="text-xl font-semibold mb-2">Product 3</div>
-            <div className="text-gray-600">$59.99</div>
+            {/* Featured Product 3 */}
+            <div className="bg-white p-6 shadow-md rounded-lg">
+              <img
+                src="https://via.placeholder.com/200"
+                alt="Product 3"
+                className="w-full h-40 mb-4 object-cover"
+              />
+              <div className="text-xl font-semibold mb-2">Product 3</div>
+              <div className="text-gray-600">$59.99</div>
+            </div>
           </div>
         </div>
       </div>

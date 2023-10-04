@@ -2,10 +2,10 @@ import { loginUserType, signupUserType } from "@/types/types"
 import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../store/store'
-import { loginUser, signOut } from "@/store/authSlice"
+import { fetchCurrentUser, loginUser, signOut } from "@/store/authSlice"
 import { useRouter } from "next/navigation";
 import React, { useState } from 'react'
-import { useUserLogined } from "@/customHooks/utils/userLogined"
+import { useUserLogined } from "@/customHooks/utils/useUserLogined"
 
 
 export const useLogin = () => {
@@ -45,7 +45,27 @@ export const useLogin = () => {
   };
   const doSignout = async () => {
     console.log("do signout");
-    await dispatch(signOut())
+    dispatch(signOut())
+    localStorage.removeItem('token')
+    console.log(" localStorage.getItem('token')", localStorage.getItem('token'));
+    router.push('/')
+  }
+  const doFetchCurrentUser = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      console.log("token in fetch current user", token);
+      // console.log(" localStorage.getItem('token')", localStorage.getItem('token'));
+      if (token) {
+        const action = await dispatch(fetchCurrentUser());
+        console.log("action in fetch current user ", action);
+        return action
+      }
+      else {
+        console.log("token is not persent");
+      }
+    } catch (error: any) {
+      console.log("error in fetchcurrent user", error.message);
+    }
   }
   return {
     doLogin,
@@ -53,7 +73,8 @@ export const useLogin = () => {
     goToLogin,
     loader,
     setLoader,
-    doSignout
+    doSignout,
+    doFetchCurrentUser,
   }
 }
 

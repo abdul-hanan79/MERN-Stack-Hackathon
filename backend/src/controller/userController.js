@@ -91,10 +91,10 @@ const doLogin = async (req, res) => {
             role: user.role
         }
         // res.cookie('myCookie', 'cookieValue', { maxAge: 900000, httpOnly: true });
-        res.cookie("jwtToken", token, {
-            expires: new Date(Date.now() + 2589200000),
-            httpOnly: true
-        })
+        // res.cookie("jwtToken", token, {
+        //     expires: new Date(Date.now() + 2589200000),
+        //     httpOnly: true
+        // })
         return res.status(200).json(response);
     }
     catch (error) {
@@ -109,4 +109,42 @@ const doLogin = async (req, res) => {
         await prisma.$disconnect()
     }
 }
-module.exports = { doSignup, doLogin }
+const doFetchCurrentUser = async (req, res) => {
+    try {
+        const userId = req.userId
+        console.log("user id",userId);
+        console.log("user id", userId);
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+            include: {
+                Cart: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
+        });
+        console.log("user in login ", user)
+        const response = {
+            message: 'successfull',
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            cartId: user.Cart[0].id,
+            role: user.role
+        }
+        return res.status(200).json(response);
+    } catch (error) {
+        console.log("error in fetching current user", error.message);
+        const response = {
+            error,
+            message: 'unsuccessfull'
+        }
+    }
+    finally {
+        await prisma.$disconnect()
+    }
+}
+module.exports = { doSignup, doLogin ,doFetchCurrentUser}

@@ -16,6 +16,7 @@ export const createOrder = createAsyncThunk('/order/createOrder', async (orderDe
 })
 export const fetchOrder = createAsyncThunk('/order/fetchOrder', async (userId: string) => {
     try {
+        console.log("user Id in fetch order",userId);
         const result = await axios.get(`http://localhost:8080/order/getOrders?id=${userId}`);
         console.log("result in fetchOrder", result.data);
         const fetchedOrder = result.data;

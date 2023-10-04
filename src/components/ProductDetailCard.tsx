@@ -7,20 +7,20 @@ import React, { useEffect, useState } from 'react'
 import Spinner from './ui/Spinner'
 import ReactIcons from 'react-icons';
 import Link from 'next/link'
-import { useUserLogined } from '@/customHooks/utils/userLogined'
+import { useUserLogined } from '@/customHooks/utils/useUserLogined'
 import SimpleButton from './ui/SimpleButton'
 import ProductFilter from './FilterProducts'
 const ProductDetailCard = () => {
     const { loginUserDetails } = useUserLogined();
-    const { checkUserLogin } = useVerifyUserLogined()
+    const { checkUserLogin } = useVerifyUserLogined();
     const { products, loader, doDeleteProduct } = useProducts()
     const [filteredProducts, setFilteredProducts] = useState(products);
     useEffect(() => {
         checkUserLogin()
     }, [])
-    useEffect(()=>{
+    useEffect(() => {
         setFilteredProducts(products)
-    },[products])
+    }, [products])
 
     const handleFilter = (filteredProducts: any) => {
         console.log("this is working");
