@@ -53,18 +53,15 @@ const LoginForm = () => {
                                 touched={touched.password}
                             />
                             {loginError && <ErrorBox error={loginError} />}
-                            <Button type="submit" title="Login" loading={loader} isValid={isValid} />
+                            <Button type="submit" title="Login" loading={true} isValid={isValid} />
                         </form>
                         <p className="sign-up text-sm text-slate-500">
                             Do not have accout? <Link href="/signup" className="text-blue-600 underline-offset-auto">Sign Up Now</Link>
                         </p>
                     </div>
-                </div>
+               </div>
 
-            </div>
-
-
-
+           </div>
         </>
     );
 };
