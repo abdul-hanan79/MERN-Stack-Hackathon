@@ -1,27 +1,33 @@
 import Benefits from '@/components/Benefits';
 import Spinner from '@/components/ui/Spinner';
 import Image from 'next/image'
+import Link from 'next/link';
 
 export default function Home() {
   return (
     <div className="bg-gray-100">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-purple-500 to-indigo-500 py-32 px-8 text-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Fashion E-commerce</h1>
-        <p className="text-xl mb-8">Shop the latest trends in fashion</p>
-        <a
-          href="#"
-          className="bg-white text-indigo-500 hover:text-indigo-600 font-semibold py-2 px-4 rounded"
-        >
-          Shop Now
-        </a>
-      </div>
-
+      <section className="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
+        <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Discover Endless Possibilities in Online Shopping</h1>
+          <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">At our e-commerce store, we redefine the art of shopping. With a wide range of products to choose from, a seamless and secure checkout process, and exceptional customer service, your next great shopping experience is just a click away. </p>
+          <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+            <Link href="/products" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+              Explore
+              <svg aria-hidden="true" className="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </Link>
+            <Link href="#" className="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
+              Learn more
+            </Link>
+          </div>
+        </div>
+      </section>
       {/* Benefits Section */}
       <div className="py-16 px-8">
         <h2 className="text-3xl font-bold text-center mb-8">Why Choose Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <Benefits title="Product Quality" description="We offer a wide range of high-quality fashion products from top brands." />
+          <Benefits title="Shipping Quality" description="We offer a wide range of high-quality fashion products from top brands." />
           <Benefits title="Shipping Quality" description="We offer a wide range of high-quality fashion products from top brands." />
         </div>
 

@@ -29,13 +29,6 @@ const ProductDetailCard = () => {
     return (
         <div>
             <ProductFilter products={products} onFilter={handleFilter} />
-            <div className="c-card block bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-xl rounded-lg overflow-hidden">
-                <div className="p-4 text-white">
-                    <h1 className="mt-2 mb-2 font-bold">
-                        This is product detail card
-                    </h1>
-                </div>
-            </div>
             {loader ? <Spinner /> : <div className="container mx-auto">
                 <div className="flex flex-wrap -mx-4">
                     {filteredProducts?.map((item: productItemType, index: number) => (
@@ -49,27 +42,22 @@ const ProductDetailCard = () => {
                                         <span className="inline-block px-2 py-1 leading-none bg-orange-200 text-orange-800 rounded-full font-semibold uppercase tracking-wide text-xs">
                                             {item.category}
                                         </span>
-                                        <h2 className="mt-2 mb-2 font-bold">
+                                        <h2 className="mt-2 mb-2 font-bold text-lg">
                                             {item.name}
                                         </h2>
-                                        <p className="text-sm">
-                                            {item.price}
-                                        </p>
-                                        <div className="mt-3 flex items-center">
-                                            <span className="text-sm font-semibold">
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star-half-alt"></i>
-                                            </span>
-                                            <span className="text-sm font-semibold ml-2">
-                                                {item.stock}
-                                            </span>
-                                            {/* {item.userId == loginUserDetails.id ? <SimpleButton title="delete" loading={false} onClick={() => {
-                                                doDeleteProduct(item)
-                                            }} /> : null}
-                                            <p>see more</p> */}
+                                        <div className='flex justify-between'>
+                                            <div className="flex ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="green" className="w-6 h-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <p>{item.price}</p>
+                                            </div>
+                                            <div className="flex ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                                </svg>
+                                                <p>{item.stock}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

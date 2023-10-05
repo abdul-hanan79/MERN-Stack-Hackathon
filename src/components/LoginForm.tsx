@@ -1,9 +1,7 @@
 import React from "react";
-
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas/loginSchema";
 import { useSignup } from "@/customHooks/useSignup";
-
 import { useLogin } from "@/customHooks/useLogin";
 import Link from "next/link";
 import InputBlock from "./InputBlock";
@@ -22,7 +20,7 @@ const LoginForm = () => {
             initialValues,
             validationSchema: loginSchema,
             validateOnChange: true,
-            validateOnBlur: false,
+            validateOnBlur: true,
             //// By disabling validation onChange and onBlur formik will validate on submit.
             onSubmit: async (values, action) => {
                 setLoader(true)
@@ -32,18 +30,20 @@ const LoginForm = () => {
             },
         });
     console.log("is valid", isValid);
+    console.log("errors", errors);
+    console.log("touched", touched);
     return (
         <>
             <div className="container mx-auto">
                 <div className="flex justify-center">
-                    <div className="w-1/3 mx-2">
+                    <div className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg">
                         <img
                             src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dfd2ec5a01006fd8c4d7592a381d3776&auto=format&fit=crop&w=1000&q=80"
                             alt=""
                         />
                     </div>
-                    <div className="w-1/2 mx-2 ">
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div className="w-1/2 mx-2 flex flex-col justify-center items-center ">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center">
                             <InputBlock label="Email" type="email" name="email" id="email" placeholder="Enter your Email"
                                 value={values.email} onChange={handleChange} onBlur={handleBlur} error={errors.email}
                                 touched={touched.email}
@@ -53,15 +53,18 @@ const LoginForm = () => {
                                 touched={touched.password}
                             />
                             {loginError && <ErrorBox error={loginError} />}
-                            <Button type="submit" title="Login" loading={true} isValid={isValid} />
+                            <Button type="submit" title="Login" loading={loader} isValid={isValid} className="w-10/12" />
                         </form>
                         <p className="sign-up text-sm text-slate-500">
                             Do not have accout? <Link href="/signup" className="text-blue-600 underline-offset-auto">Sign Up Now</Link>
                         </p>
                     </div>
-               </div>
+                </div>
 
-           </div>
+            </div>
+
+
+
         </>
     );
 };

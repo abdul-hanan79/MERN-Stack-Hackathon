@@ -30,7 +30,7 @@ const Benefits = (props: any) => {
     },[])
     return (
         <div className="bg-white p-6 shadow-md rounded-lg">
-            <div className="text-2xl mb-4">{props.heading}</div>
+            <div className="text-2xl mb-4">{props.title}</div>
             <p className="text-gray-600">
                 {props.description}
                 {/* We offer a wide range of high-quality fashion products from top brands. */}

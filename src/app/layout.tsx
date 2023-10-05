@@ -20,9 +20,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Navbar />
-          <div className='pt-20'>
-            {children}
-          </div>
+          {children}
         </Providers>
       </body>
     </html>

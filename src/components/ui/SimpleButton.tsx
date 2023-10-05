@@ -5,17 +5,12 @@ const SimpleButton = (props: any) => {
     // console.log("props.type", props.type);
     return (
         <div className="modal-buttons">
-            {!props.loading ? <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md`}
-                onClick={props.onClick}
-
+            <button
+                className={`bg-gradient-to-r transition-colors duration-300 from-teal-400 to-yellow-200 hover:bg-gradient-to-l hover:from-teal-400 hover:to-yellow-200 text-white font-bold py-2 px-4 rounded shadow-md ${props?.className || ''}`}
+                onClick={props?.onClick}
             >
-                {props.title}
-            </button> : <button
-                className={`bg-white-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md ${props?.className}`}
-            >
-                <Spinner />
-            </button>}
+                {!props?.loading ? <span> {props.title} </span> : <Spinner />}
+            </button>
         </div>
     )
 }
