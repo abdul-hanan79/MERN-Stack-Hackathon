@@ -27,7 +27,7 @@ const Benefits = (props: any) => {
             console.log("fetch current user");
             doFetchCurrentUser()
         }
-    },[])
+    }, [])
     return (
         <div className="bg-white p-6 shadow-md rounded-lg">
             <div className="text-2xl mb-4">{props.title}</div>

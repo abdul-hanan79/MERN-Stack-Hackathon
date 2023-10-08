@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 
 const useProducts = () => {
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
-    const [loader, setLoader] = useState(false)
     const allProducts = useSelector((state: any) => state.productSlice.products)
     console.log("allProducts", allProducts);
     const router = useRouter();
@@ -18,6 +17,8 @@ const useProducts = () => {
     console.log("user id is", loginUserDetails.id);
     const [products, setProducts] = useState(allProducts)
     console.log("products", products);
+    const [loader, setLoader] = useState(false)
+    console.log("loader initil value",loader);
     useEffect(() => {
         setProducts(allProducts)
     }, [allProducts])
@@ -51,11 +52,14 @@ const useProducts = () => {
             setLoader(true)
             const action = await dispatch(fetchProducts());
             console.log("action", action);
+            console.log("loader in fetch products  dofetch",loader);
         } catch (error: any) {
             console.log("error in fetchProducts", error.message);
         }
         finally {
             setLoader(false)
+            console.log("loader in fetch products ",loader);
+
         }
     }
     const doDeleteProduct = async (item: productItemType) => {
@@ -87,7 +91,7 @@ const useProducts = () => {
                 userId: product[0].userId
             }
             console.log("updated product details", updateProductDetails);
-            const action:any = await dispatch(updateProduct(updateProductDetails))
+            const action: any = await dispatch(updateProduct(updateProductDetails))
             console.log("action in update product", action);
             if (action?.payload?.message == "successfull") {
                 console.log("item is uploaded");
@@ -106,6 +110,7 @@ const useProducts = () => {
         doDeleteProduct,
         products,
         loader,
+        setLoader,
         doUpdateProduct,
     }
 }

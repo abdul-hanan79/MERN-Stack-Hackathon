@@ -36,14 +36,25 @@ const RatingForm = (props: any) => {
     console.log("error", errors)
     console.log("isvalid", isValid)
     console.log("values", values);
+    console.log("touched.review", touched.review);
+    console.log("touched.rating", touched.rating);
     return (
         <div>
             <div className="flex ">
                 <div className="mx-auto p-5 ">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                        <InputBlock label="Rating" type="number" name="rating" id="rating" placeholder="Enter Product Rating" value={values.rating} onChange={handleChange} onBlur={handleBlur} error={errors.rating} touched={touched.rating} />
-                        <InputBlock label="Reviews" type="text" name="review" id="review" placeholder="Enter Product Review" value={values.review} onChange={handleChange} onBlur={handleBlur} error={errors.review} touched={touched.review} />
-                        <Button title="Submit Review" type="submit" loading={loader} isValid={isValid} />
+                        <InputBlock label="Rating" type="number" name="rating" id="rating" placeholder="Enter Product Rating b/w 0-5" value={values.rating} onChange={handleChange} onBlur={handleBlur} error={errors.rating} touched={touched.rating} />
+                        <textarea className='rounded-lg focus:ring-2 focus:ring-yellow-400  shadow-md p-3 focus:outline-4  outline-none' name='review' value={values.review} onChange={handleChange} onBlur={handleBlur} placeholder='Enter your reviews' />
+                        {errors.review && touched.review ? (
+                            <p className="form-error text-rose-700">{errors.review}</p>
+                        ) : null}
+                        <Button title="Submit Review" type="submit" loading={loader} isValid={isValid} className="w-full"
+                        />
+                        {/* <SimpleButton className="w-full" title="Add To Cart" loading={loader} onClick={() => {
+                                        doAddToCart(item)
+                                    }} />  <SimpleButton className="w-full" title="Add To Cart" loading={loader} onClick={() => {
+                                        doAddToCart(item)
+                                    }} /> */}
                     </form>
                 </div >
             </div >

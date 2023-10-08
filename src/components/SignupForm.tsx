@@ -7,9 +7,10 @@ import InputBlock from "./InputBlock";
 import Button from "./ui/Button";
 import Link from "next/link";
 import ErrorBox from "./ui/ErrorBox";
+import Image from "next/image";
 
 const SignupForm = () => {
-    const { doSignup, signupError } = useSignup()
+    const { doSignup, signupError,loader,setLoader } = useSignup()
     const initialValues = {
         name: "",
         email: "",
@@ -36,10 +37,10 @@ const SignupForm = () => {
     return (
         <>
             <div className="container mx-auto">
-                <div className="flex justify-center">
+                <div className="flex justify-center gap-3">
                     <div className="w-1/3 mx-2 ">
                         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                            <InputBlock label="Name" type="text" name="name" id="name" placeholder="enter your name"
+                            <InputBlock label="Name" type="text" name="name" id="name" placeholder="Enter your name"
                                 value={values.name} onChange={handleChange} onBlur={handleBlur} error={errors.name}
                                 touched={touched.name}
                             />
@@ -55,7 +56,7 @@ const SignupForm = () => {
                                 value={values.confirmPassword} onChange={handleChange} onBlur={handleBlur} error={errors.confirmPassword}
                                 touched={touched.confirmPassword}
                             />
-                            <Button type="submit" title="Signup" isValid={isValid} />
+                            <Button type="submit" title="Signup" isValid={isValid} className="w-full" loading={loader} />
                         </form>
                         {signupError && <ErrorBox error={signupError} />}
                         <p className="sign-up text-sm text-slate-500">
@@ -63,9 +64,11 @@ const SignupForm = () => {
                         </p>
                     </div>
                     <div className="w-1/3 mx-2">
-                        <img
+                        <Image
                             src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dfd2ec5a01006fd8c4d7592a381d3776&auto=format&fit=crop&w=1000&q=80"
-                            alt=""
+                            alt="image"
+                          height={500}
+                          width={500}
                         />
                     </div>
                 </div>

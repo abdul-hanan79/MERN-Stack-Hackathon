@@ -8,8 +8,10 @@ const page = ({ params }: any) => {
     // const router = useRouter()
     return (
         <div>
-            <p>{productId}</p>
-            {/* <ProductFullDetails id={productId} /> */}
+
+
+            <h1 className="text-4xl font-bold text-center text-blue-600 mb-4 border-b-4 border-blue-400 pb-2">Upate Product</h1>
+
             <ProductForm editable={true} productId={productId} />
         </div>
     )

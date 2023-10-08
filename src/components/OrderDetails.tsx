@@ -3,6 +3,7 @@ import React from 'react';
 import OrderDetailsForm from './OrderDetailsForm';
 import { addToCartItemType } from '@/types/types';
 import useOrder from '@/customHooks/useOrder';
+import SingleProductDetail from './SingleProductDetail';
 // import OrderForm from '../components/OrderForm';
 
 const OrderDetails = (props: any) => {
@@ -18,14 +19,19 @@ const OrderDetails = (props: any) => {
                 <div className="w-3/4">
                     {cartItems?.map((item: addToCartItemType) => (
                         <div key={item.id} className="mb-4">
-                            <p className="text-lg">{item.productId}</p>
+                            {/* <p className="text-lg">{item.productId}</p> */}
+                            <SingleProductDetail item={item} />
                             <p className="text-gray-600">${item.price} x {item.quantity}</p>
                         </div>
                     ))}
                     <p>sub total : {totalPrice}</p>
                 </div>
                 <div className="w-1/4">
-                    <OrderDetailsForm onSubmit={(values: any) => doCreateOrder(values, cartItems, totalPrice)} />
+                    <OrderDetailsForm onSubmit={(values: any, action: any) => {
+                        doCreateOrder(values, cartItems, totalPrice)
+                        action.resetForm()
+
+                    }} />
                 </div>
             </div>
         </div>

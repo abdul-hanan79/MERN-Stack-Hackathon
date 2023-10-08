@@ -2,6 +2,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Button from './ui/Button';
 
 const OrderDetailsForm = ({ onSubmit }: any) => {
   console.log("on submit",onSubmit);
@@ -36,9 +37,7 @@ const OrderDetailsForm = ({ onSubmit }: any) => {
           />
           <ErrorMessage name="shippingAddress" component="p" className="text-red-500 text-sm" />
         </div>
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
-          Place Order
-        </button>
+        <Button type="submit" title="Place Your Order" isValid={true} />
       </Form>
     </Formik>
   );

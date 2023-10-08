@@ -18,6 +18,7 @@ const useCart = () => {
     console.log("initial Item Values =====>", initialItemValues);
     const [items, setItems] = useState(initialItemValues);
     const [showOrder, setShowOrder] = useState(false)
+    const [loader, setLoader] = useState(false)
     console.log("items =====>", items);
     useEffect(() => {
         setItems(cartItems);
@@ -61,6 +62,7 @@ const useCart = () => {
     }
     const doAddToCart = async (item: productItemType) => {
         try {
+            setLoader(true)
             const foundItemId = item.id
             console.log("found item id", foundItemId);
             const foundItem = cartItems.find((item: any) => item.productId == foundItemId)
@@ -87,6 +89,9 @@ const useCart = () => {
 
         } catch (error: any) {
             console.log("error in doAddToCart", error.message);
+        }
+        finally {
+            setLoader(false)
         }
 
 
@@ -123,7 +128,7 @@ const useCart = () => {
         doUpdateCartItem,
         items,
         setItems,
-        handleFormSubmit, showOrder, setShowOrder
+        handleFormSubmit, showOrder, setShowOrder, loader
     }
 
 }

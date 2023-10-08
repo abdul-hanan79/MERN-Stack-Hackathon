@@ -6,6 +6,7 @@ import { deleteRating, submitRating } from '@/store/productSlice';
 
 const useRating = () => {
     const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
+    const [ratingLoader, setRatingLoader] = useState(false)
     const [loader, setLoader] = useState(false)
     const doSubmitRating = async (values: any) => {
         try {
@@ -19,6 +20,7 @@ const useRating = () => {
     }
     const doDeleteRating = async (itemDetails: any) => {
         try {
+            setRatingLoader(true)
             console.log("rating id ", itemDetails);
             const action = await dispatch(deleteRating(itemDetails))
             console.log("action", action);
@@ -27,15 +29,17 @@ const useRating = () => {
             console.log("error in submit rating", error.message);
 
         }
+        finally {
+            setRatingLoader(false)
+        }
 
         // console.log("hello");
     }
     return {
         doSubmitRating,
         doDeleteRating,
-        loader,
-        setLoader
-
+        ratingLoader, setRatingLoader
+        , loader, setLoader
     }
 
 }

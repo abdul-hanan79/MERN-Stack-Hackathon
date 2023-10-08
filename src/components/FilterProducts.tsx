@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SimpleButton from './ui/SimpleButton';
 
 const ProductFilter = ({ products, onFilter }: any) => {
     const [category, setCategory] = useState('');
@@ -10,7 +11,7 @@ const ProductFilter = ({ products, onFilter }: any) => {
         const minStockValue = parseInt(minStock);
         const minPriceValue = parseFloat(minPrice);
         // Filter products based on the selected criteria
-        const filteredProducts = products.filter((product: any) => {
+        const filteredProducts = products?.filter((product: any) => {
             let passCategory = true;
             let passStock = true;
             let passPrice = true;
@@ -33,28 +34,23 @@ const ProductFilter = ({ products, onFilter }: any) => {
     };
 
     return (
-        <div className="p-4 bg-gray-200 rounded-md shadow-md">
-            <div className='flex '>
-                <h2 className="text-xl font-semibold mb-2">Filter Products</h2>
+        <div className="p-4 bg-gray-200 rounded-lg shadow-md flex flex-col items-center">
+            <h2 className="text-xl font-semibold mb-2">Filter Products</h2>
+            <div className='flex'>
                 <div className="mb-4">
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-600">
-                        Category
-                    </label>
                     <select
                         id="category"
                         className="w-full py-2 px-3 border rounded-md"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                    >                    <option value="">All</option>
+                    >
+                        <option value="">All Category</option>
                         <option value="clothes">Clothes</option>
                         <option value="shoes">Shoes</option>
                         <option value="accessories">Accessories</option>
                     </select>
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="minStock" className="block text-sm font-medium text-gray-600">
-                        Min Stock
-                    </label>
                     <input
                         type="number"
                         id="minStock"
@@ -65,9 +61,6 @@ const ProductFilter = ({ products, onFilter }: any) => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="minPrice" className="block text-sm font-medium text-gray-600">
-                        Min Price
-                    </label>
                     <input
                         type="number"
                         id="minPrice"
@@ -77,12 +70,11 @@ const ProductFilter = ({ products, onFilter }: any) => {
                         onChange={(e) => setMinPrice(e.target.value)}
                     />
                 </div>
-                <button
+                <SimpleButton
                     className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
-                    onClick={handleFilter}
-                >
-                    Filter
-                </button>
+                    onClick={handleFilter} title="filter"
+                />
+
             </div>
         </div>
     );

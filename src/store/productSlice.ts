@@ -110,8 +110,9 @@ const productSlice = createSlice({
             console.log("prodcut details in extraReducers", action.payload);
             let newState: any = {
                 ...state,
-                product: [...state.products, action.payload],
+                products: [...state.products, action.payload.result],
             }
+            console.log("new state",newState);
             return newState;
         }),
             builder.addCase(fetchProducts.fulfilled, (state, action) => {

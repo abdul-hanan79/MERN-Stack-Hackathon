@@ -14,14 +14,13 @@ const InputBlock = (props: any) => {
                 name={props.name}
                 id={props.id}
                 // className="rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700"
-                className={`rounded-lg focus:ring-2 focus:ring-yellow-400  shadow-md p-3 focus:outline-4  outline-none ${props?.className || null}`}
+                className={`rounded-lg focus:ring-2 focus:ring-yellow-400  shadow-md p-3 focus:outline-4  outline-none w-full ${props?.className || null}`}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={props.onChange}
                 onBlur={props.handleBlur}
             />
-
-            {props.error && props.touched ? (
+            {props.error  ? (
                 <p className="form-error text-rose-700">{props.error}</p>
             ) : null}
         </div>

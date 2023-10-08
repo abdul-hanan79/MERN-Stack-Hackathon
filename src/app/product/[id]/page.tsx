@@ -9,7 +9,7 @@ const page = ({ params }: any) => {
     // const router = useRouter()
     return (
         <div>
-            <p>{productId}</p>
+            {/* <p>{productId}</p> */}
             <ProductFullDetails id={productId} />
         </div>
     )

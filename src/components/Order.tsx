@@ -4,6 +4,7 @@ import { orderType } from '@/types/types'
 import React, { useEffect } from 'react'
 import SimpleButton from './ui/SimpleButton'
 import useVerifyUserLogined from '@/customHooks/utils/useVerifyUserLogined'
+import SingleProductDetail from './SingleProductDetail'
 
 const Order = () => {
     const { order, doDeleteOrder } = useOrder()
@@ -27,7 +28,8 @@ const Order = () => {
                             item.items?.map((orderItem: any, index: any) => {
                                 return (
                                     <div key={index}>
-                                        <p>productId:{orderItem.productId}</p>
+                                        {/* <p>productId:{orderItem.productId}</p> */}
+                                        <SingleProductDetail item={orderItem}/>
                                         <p>Quantity:{orderItem.quantity}</p>
                                     </div>
 
