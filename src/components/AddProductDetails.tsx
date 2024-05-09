@@ -77,7 +77,7 @@ const ProductForm = (props: any) => {
                                 setFieldValue("image", event.target.files[0])
                             }} onBlur={handleBlur} error={errors.image} touched={touched.image} className='appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline' /> : null}
                             <InputBlock label="Product Name" type="text" name="name" id="name" placeholder="Product Name" value={values.name} onChange={handleChange} onBlur={handleBlur} error={errors.name} touched={touched.name} />
-                            <InputBlock label="Descriptions" type="text" name="description" id="description" className='rounded-lg shadow-md p-1 border rounded w-full h-20 px-3 text-gray-700' placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} />
+                            <InputBlock label="Descriptions" type="text" name="description" id="description" className='rounded-lg shadow-md p-1 border w-full h-20 px-3 text-gray-700' placeholder="Product Description" value={values.description} onChange={handleChange} onBlur={handleBlur} error={errors.description} touched={touched.description} />
                             <div className="mb-4">
                                 <label htmlFor="Category" className="block text-lg font-medium text-slate-700F">
                                     Select an option

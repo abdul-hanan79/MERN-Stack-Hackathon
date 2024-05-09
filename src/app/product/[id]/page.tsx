@@ -6,6 +6,7 @@ import React from 'react'
 const page = ({ params }: any) => {
     console.log("params", params);
     const productId = params.id
+    // product id =12234
     // const router = useRouter()
     return (
         <div>
