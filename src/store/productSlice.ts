@@ -10,7 +10,7 @@ export const submitRating = createAsyncThunk('/product/submitRating', async (val
     try {
         console.log("values in submit rating", values);
         const comment = values;
-        const result = await axios.post("http://localhost:8080/ratings/createRating", { comment })
+        const result = await axios.post("https://mern-stack-hackathon-backend.vercel.app/ratings/createRating", { comment })
         console.log("result data", result.data);
         const uploadedRating = result.data;
         return uploadedRating;
@@ -21,7 +21,7 @@ export const submitRating = createAsyncThunk('/product/submitRating', async (val
 export const deleteRating = createAsyncThunk('product/deleteRating', async (itemDetails: any) => {
     try {
         const id = itemDetails.id
-        const result = await axios.delete(`http://localhost:8080/ratings/deleteRating?id=${id}`)
+        const result = await axios.delete(`https://mern-stack-hackathon-backend.vercel.app/ratings/deleteRating?id=${id}`)
         console.log("result", result.data);
         const deletedRatingDetail = {
             id: itemDetails.id,
@@ -37,7 +37,7 @@ export const deleteRating = createAsyncThunk('product/deleteRating', async (item
 
 export const fetchProducts = createAsyncThunk(('product/fetchProducts'), async () => {
     try {
-        const result = await axios.get("http://localhost:8080/products/getProducts")
+        const result = await axios.get("https://mern-stack-hackathon-backend.vercel.app/products/getProducts")
         console.log("all products", result)
         const allProducts = result.data;
         return allProducts
@@ -58,7 +58,7 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
         formData.append("stock", productDetails.stock.toString())
         formData.append("userId", productDetails.userId)
         console.log("form data", formData)
-        const product = await axios.post("http://localhost:8080/products/createProduct", formData, {
+        const product = await axios.post("https://mern-stack-hackathon-backend.vercel.app/products/createProduct", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -75,7 +75,7 @@ export const submitProduct = createAsyncThunk(('product/submitProduct'), async (
 export const deleteProduct = createAsyncThunk('/product/deleteProduct', async (productId: string) => {
 
     console.log("productId", productId);
-    const result = await axiosWithCookies.delete(`http://localhost:8080/products/deleteProduct?id=${productId}`)
+    const result = await axiosWithCookies.delete(`https://mern-stack-hackathon-backend.vercel.app/products/deleteProduct?id=${productId}`)
     console.log("result", result.data);
     const deletedProductDetail = {
         productId,
@@ -86,7 +86,7 @@ export const deleteProduct = createAsyncThunk('/product/deleteProduct', async (p
 export const updateProduct = createAsyncThunk('product/updateProduct', async (item: any) => {
     try {
         const updateProductDetails = item;
-        const result = await axios.put('http://localhost:8080/products/updateProduct', updateProductDetails)
+        const result = await axios.put('https://mern-stack-hackathon-backend.vercel.app/products/updateProduct', updateProductDetails)
         console.log("result", result.data);
         const updatedProductDetails = {
             message: result.data.message,

@@ -5,7 +5,7 @@ import axios from "axios";
 export const addToCart = createAsyncThunk('/cart/addToCart', async (item: addToCartItemType) => {
     try {
         const addToCartItem = item;
-        const result = await axios.post("http://localhost:8080/cartItem/createCartItem", addToCartItem)
+        const result = await axios.post("https://mern-stack-hackathon-backend.vercel.app/cartItem/createCartItem", addToCartItem)
         console.log("result", result.data);
         const uploadedCartItem = result.data;
         console.log("upload cart item", uploadedCartItem);
@@ -16,7 +16,7 @@ export const addToCart = createAsyncThunk('/cart/addToCart', async (item: addToC
 })
 export const fetchCartItems = createAsyncThunk('/cart/fetchCartItems', async (userId: string) => {
     try {
-        const result = await axios.get(`http://localhost:8080/cartItem/getCartItems?id=${userId}`);
+        const result = await axios.get(`https://mern-stack-hackathon-backend.vercel.app/cartItem/getCartItems?id=${userId}`);
         console.log("result in fetchCartItems", result.data);
         const cartItems = result.data;
         return cartItems;
@@ -26,7 +26,7 @@ export const fetchCartItems = createAsyncThunk('/cart/fetchCartItems', async (us
 })
 export const deleteCartItem = createAsyncThunk('/cart/deleteCartItem', async (cartItemId: string | undefined) => {
     try {
-        const result = await axios.delete(`http://localhost:8080/cartItem/deleteCartItem?id=${cartItemId}`)
+        const result = await axios.delete(`https://mern-stack-hackathon-backend.vercel.app/cartItem/deleteCartItem?id=${cartItemId}`)
         console.log("result ", result.data);
         const deletedCartItem = {
             message: result.data.message,
@@ -39,7 +39,7 @@ export const deleteCartItem = createAsyncThunk('/cart/deleteCartItem', async (ca
 })
 export const updateCartItem = createAsyncThunk('/cart/updateCartItem', async (item: addToCartItemType) => {
     const updateItem = item;
-    const result = await axios.patch('http://localhost:8080/cartItem/updateCartItem', updateItem)
+    const result = await axios.patch('https://mern-stack-hackathon-backend.vercel.app/cartItem/updateCartItem', updateItem)
     console.log("result", result.data);
     const updatedCartItemDetails = {
         message: result.data.message,

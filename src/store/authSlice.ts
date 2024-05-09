@@ -9,7 +9,7 @@ export const fetchCurrentUser = createAsyncThunk('authUser/fetchCurrentUser', as
         const value: any = {
             fetchCurrentUser: true,
         }
-        const result = await axiosWithToken.get('http://localhost:8080/user/fetchCurrentUser', { params: { value } })
+        const result = await axiosWithToken.get(`https://mern-stack-hackathon-backend.vercel.app/user/fetchCurrentUser`, { params: { value } })
         console.log("result ", result.data);
         const userData = result.data
         console.log("UserData", userData);
@@ -21,7 +21,7 @@ export const fetchCurrentUser = createAsyncThunk('authUser/fetchCurrentUser', as
 export const signupUser = createAsyncThunk('authUser/signupUser', async (user: signupUserType) => {
     try {
         console.log('signupUser /authi slice', user)
-        const signupUser = await axios.post("http://localhost:8080/user/signupUser", { user })
+        const signupUser = await axios.post("https://mern-stack-hackathon-backend.vercel.app/user/signupUser", { user })
         console.log("the user i singup", signupUser);
         const signupedUser = signupUser.data;
         console.log("signupedUser Data is", signupedUser);
@@ -34,7 +34,7 @@ export const signupUser = createAsyncThunk('authUser/signupUser', async (user: s
 export const loginUser = createAsyncThunk('auth/loginUser', async (userCredentials: loginUserType) => {
     console.log("the logined user", userCredentials);
     try {
-        const user = await axios.post("http://localhost:8080/user/loginUser", { email: userCredentials.email, password: userCredentials.password })
+        const user = await axios.post("https://mern-stack-hackathon-backend.vercel.app/user/loginUser", { email: userCredentials.email, password: userCredentials.password })
         console.log("logined user data is", user);
         const userData = user.data
         localStorage.setItem("token", userData.token)
